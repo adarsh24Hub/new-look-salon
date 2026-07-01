@@ -33,7 +33,7 @@ router.post('/login', async (req, res) => {
     jwt.sign(
       payload,
       process.env.JWT_SECRET || 'new_look_secret_key_123',
-      { expiresIn: '360000' }, // 100 hours (for easy debugging/admin use)
+      { expiresIn: '7d' }, // 7 days (prevents quick expiration)
       (err, token) => {
         if (err) throw err;
         res.json({ token, username: user.username });
