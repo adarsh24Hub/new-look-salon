@@ -168,20 +168,41 @@ export default function Gallery({ gender }) {
         }
 
         .gallery-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          display: flex;
+          overflow-x: auto;
           gap: 1.5rem;
+          padding: 0.5rem 0.2rem 1.5rem 0.2rem;
           max-width: 1200px;
           margin: 0 auto;
           position: relative;
           z-index: 10;
+          scroll-snap-type: x mandatory;
+          scrollbar-width: thin;
+          scrollbar-color: var(--accent-color) var(--bg-primary);
+        }
+
+        .gallery-grid::-webkit-scrollbar {
+          height: 6px;
+        }
+
+        .gallery-grid::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.03);
+          border-radius: 3px;
+        }
+
+        .gallery-grid::-webkit-scrollbar-thumb {
+          background: var(--accent-color);
+          border-radius: 3px;
         }
 
         .gallery-item {
+          flex: 0 0 280px;
+          scroll-snap-align: start;
           overflow: hidden;
           padding: 0;
           border-color: rgba(255,255,255,0.05);
           aspect-ratio: 1 / 1;
+          border-radius: 8px;
         }
 
         .img-container {

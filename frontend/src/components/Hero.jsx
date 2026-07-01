@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, Calendar, MapPin, Phone, MessageSquare } from 'lucide-react';
+import { Calendar, MapPin, Phone, MessageSquare } from 'lucide-react';
 
 export default function Hero({ gender }) {
   
@@ -26,13 +26,7 @@ export default function Hero({ gender }) {
       <div className="hero-overlay"></div>
       
       <div className="hero-content animate-slide-up">
-        {/* Google Reviews Badge */}
-        <div className="ratings-badge glass-panel">
-          <Star className="star-icon" size={16} />
-          <span className="rating-score">5.0</span>
-          <span className="rating-divider">|</span>
-          <span className="reviews-count">137 Verified Reviews</span>
-        </div>
+
 
         {/* Bilingual Header */}
         <h1 className="hero-title">

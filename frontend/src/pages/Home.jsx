@@ -5,6 +5,7 @@ import Services from '../components/Services';
 import Gallery from '../components/Gallery';
 import Reels from '../components/Reels';
 import Footer from '../components/Footer';
+import Reviews from '../components/Reviews';
 import GenderGate from '../components/GenderGate';
 import { MessageCircle } from 'lucide-react';
 
@@ -64,6 +65,9 @@ export default function Home() {
           
           {/* Instagram / Facebook Reels Section */}
           <Reels gender={gender} />
+          
+          {/* Client Reviews Section */}
+          <Reviews gender={gender} />
           
           {/* Footer Contact Details Section */}
           <Footer gender={gender} />

@@ -122,16 +122,36 @@ export default function Reels({ gender }) {
         }
 
         .reels-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          display: flex;
+          overflow-x: auto;
           gap: 2.5rem;
+          padding: 0.5rem 0.2rem 1.5rem 0.2rem;
           max-width: 1200px;
           margin: 0 auto;
           position: relative;
           z-index: 10;
+          scroll-snap-type: x mandatory;
+          scrollbar-width: thin;
+          scrollbar-color: var(--accent-color) var(--bg-primary);
+        }
+
+        .reels-grid::-webkit-scrollbar {
+          height: 6px;
+        }
+
+        .reels-grid::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.03);
+          border-radius: 3px;
+        }
+
+        .reels-grid::-webkit-scrollbar-thumb {
+          background: var(--accent-color);
+          border-radius: 3px;
         }
 
         .reel-card {
+          flex: 0 0 320px;
+          scroll-snap-align: start;
           padding: 1.5rem;
           border-color: rgba(255,255,255,0.05);
           display: flex;
