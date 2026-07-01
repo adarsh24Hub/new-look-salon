@@ -5,21 +5,23 @@ const path = require('path');
 const fs = require('fs');
 const Gallery = require('../models/Gallery');
 const auth = require('../middleware/auth');
+const cloudinary = require('cloudinary').v2;
+const CloudinaryStorage = require('multer-storage-cloudinary');
 
-// Multer Storage Configuration
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const uploadPath = path.join(__dirname, '../uploads');
-    // Ensure directory exists
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
-    }
-    cb(null, uploadPath);
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+// Cloudinary Storage Configuration
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'new-look-salon-gallery',
+    allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
   },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  }
 });
 
 // File filter (images only)
@@ -69,8 +71,8 @@ router.post('/', [auth, upload.single('image')], async (req, res) => {
 
     const { caption, category, gender } = req.body;
     
-    // Save relative image URL
-    const imageUrl = `/uploads/${req.file.filename}`;
+    // Save Cloudinary image URL
+    const imageUrl = req.file.path;
 
     const newPhoto = new Gallery({
       imageUrl,
@@ -87,8 +89,34 @@ router.post('/', [auth, upload.single('image')], async (req, res) => {
   }
 });
 
+// Helper to extract Cloudinary public ID from URL
+const getPublicIdFromUrl = (url) => {
+  try {
+    const parts = url.split('/');
+    const uploadIndex = parts.indexOf('upload');
+    if (uploadIndex !== -1) {
+      // Check if next part is version (starts with 'v' and followed by numbers)
+      const hasVersion = /^v\d+$/.test(parts[uploadIndex + 1]);
+      const startIndex = uploadIndex + (hasVersion ? 2 : 1);
+      let publicIdParts = parts.slice(startIndex);
+      let publicIdWithExt = publicIdParts.join('/');
+      const lastDotIndex = publicIdWithExt.lastIndexOf('.');
+      if (lastDotIndex !== -1) {
+        return publicIdWithExt.substring(0, lastDotIndex);
+      }
+      return publicIdWithExt;
+    }
+    // Fallback
+    const filename = parts.pop();
+    return filename.split('.')[0];
+  } catch (error) {
+    console.error('Error parsing Cloudinary URL:', error);
+    return null;
+  }
+};
+
 // @route   DELETE api/gallery/:id
-// @desc    Delete gallery photo and remove file from disk
+// @desc    Delete gallery photo and remove file from disk/Cloudinary
 // @access  Private (Admin Only)
 router.delete('/:id', auth, async (req, res) => {
   try {
@@ -97,16 +125,28 @@ router.delete('/:id', auth, async (req, res) => {
       return res.status(404).json({ msg: 'Photo not found' });
     }
 
-    // Resolve absolute path to remove from disk
-    const filename = photo.imageUrl.replace('/uploads/', '');
-    const filePath = path.join(__dirname, '../uploads', filename);
+    // Check if it's a local upload or Cloudinary upload
+    if (photo.imageUrl.startsWith('/uploads/')) {
+      // Resolve absolute path to remove from disk
+      const filename = photo.imageUrl.replace('/uploads/', '');
+      const filePath = path.join(__dirname, '../uploads', filename);
 
-    fs.unlink(filePath, (err) => {
-      if (err) {
-        console.error('Error deleting image file from disk:', err);
-        // We still continue to delete from DB even if local file delete failed
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error('Error deleting image file from disk:', err);
+        }
+      });
+    } else {
+      // Delete from Cloudinary
+      const publicId = getPublicIdFromUrl(photo.imageUrl);
+      if (publicId) {
+        try {
+          await cloudinary.uploader.destroy(publicId);
+        } catch (cloudinaryErr) {
+          console.error('Error deleting image from Cloudinary:', cloudinaryErr);
+        }
       }
-    });
+    }
 
     await photo.deleteOne();
     res.json({ msg: 'Photo deleted successfully' });
