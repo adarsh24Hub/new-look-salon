@@ -37,6 +37,17 @@ app.get('/', (req, res) => {
   res.send('New Look Unisex Salon API is running...');
 });
 
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error('Server Error:', err);
+  if (res.headersSent) {
+    return next(err);
+  }
+  res.status(err.status || 500).json({
+    msg: err.message || 'Internal Server Error'
+  });
+});
+
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
