@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Play, Video, Instagram, Facebook } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 const FALLBACK_REELS = [
   {
@@ -31,7 +32,7 @@ export default function Reels({ gender }) {
   const fetchReels = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/reels');
+      const response = await fetch(`${API_BASE_URL}/api/reels`);
       if (response.ok) {
         const data = await response.json();
         if (data && data.length > 0) {

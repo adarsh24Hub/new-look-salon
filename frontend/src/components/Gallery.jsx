@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Camera, Image as ImageIcon } from 'lucide-react';
+import { BACKEND_URL, API_BASE_URL } from '../config';
 
 const FALLBACK_GALLERY = [
   { _id: 'f1', imageUrl: 'https://images.unsplash.com/photo-1593702295094-aec22597af65?q=80&w=600&auto=format&fit=crop', caption: 'Classic Gentlemen Grooming', category: 'hair', gender: 'men' },
@@ -24,7 +25,7 @@ export default function Gallery({ gender }) {
   const fetchPhotos = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/gallery');
+      const response = await fetch(`${API_BASE_URL}/api/gallery`);
       if (response.ok) {
         const data = await response.json();
         if (data && data.length > 0) {
@@ -107,7 +108,7 @@ export default function Gallery({ gender }) {
           {filteredPhotos.map((photo) => (
             <div key={photo._id} className="gallery-item glass-panel">
               <div className="img-container">
-                <img src={photo.imageUrl} alt={photo.caption || 'Salon Style'} />
+                <img src={photo.imageUrl.startsWith('/uploads') ? `${BACKEND_URL}${photo.imageUrl}` : photo.imageUrl} alt={photo.caption || 'Salon Style'} />
                 <div className="gallery-item-overlay">
                   <div className="overlay-content">
                     <span className="photo-category">{photo.category.toUpperCase()}</span>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, User as UserIcon, AlertCircle, ArrowLeft, Key } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 export default function AdminLogin() {
   const [username, setUsername] = useState('');
@@ -22,7 +23,7 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
@@ -51,7 +52,7 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth/setup', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/setup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })

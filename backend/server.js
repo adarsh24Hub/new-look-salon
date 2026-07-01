@@ -33,9 +33,27 @@ app.use('/api/gallery', require('./routes/gallery'));
 app.use('/api/reels', require('./routes/reels'));
 
 // Simple Base route for health checks
-app.get('/', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.send('New Look Unisex Salon API is running...');
 });
+
+// Serve Static Frontend files in production
+if (process.env.NODE_ENV === 'production') {
+  const distPath = path.join(__dirname, '../frontend/dist');
+  app.use(express.static(distPath));
+
+  // Catch-all route to serve frontend index.html for client-side routing
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
+      return next();
+    }
+    res.sendFile(path.resolve(distPath, 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.send('New Look Unisex Salon API is running...');
+  });
+}
 
 // Start Server
 const PORT = process.env.PORT || 5000;

@@ -1,0 +1,11 @@
+{
+  "name": "new-look-salon-monorepo",
+  "version": "1.0.0",
+  "scripts": {
+    "install-backend": "npm install --prefix backend --legacy-peer-deps",
+    "install-frontend": "npm install --prefix frontend --legacy-peer-deps",
+    "build-frontend": "npm run build --prefix frontend",
+    "build": "npm run install-backend && npm run install-frontend && npm run build-frontend",
+    "start": "npm start --prefix backend"
+  }
+}

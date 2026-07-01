@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, Image as ImageIcon, Video, Plus, Trash2, ArrowLeft, Check, AlertCircle } from 'lucide-react';
+import { BACKEND_URL, API_BASE_URL } from '../config';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('gallery');
@@ -44,7 +45,7 @@ export default function AdminDashboard() {
 
   const fetchGallery = async () => {
     try {
-      const res = await fetch('/api/gallery');
+      const res = await fetch(`${API_BASE_URL}/api/gallery`);
       if (res.ok) {
         const data = await res.ok ? await res.json() : [];
         setPhotos(data);
@@ -56,7 +57,7 @@ export default function AdminDashboard() {
 
   const fetchReels = async () => {
     try {
-      const res = await fetch('/api/reels');
+      const res = await fetch(`${API_BASE_URL}/api/reels`);
       if (res.ok) {
         const data = await res.json();
         setReels(data);
@@ -85,7 +86,7 @@ export default function AdminDashboard() {
     formData.append('gender', galleryGender);
 
     try {
-      const response = await fetch('/api/gallery', {
+      const response = await fetch(`${API_BASE_URL}/api/gallery`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -127,7 +128,7 @@ export default function AdminDashboard() {
     setSuccess('');
 
     try {
-      const response = await fetch('/api/reels', {
+      const response = await fetch(`${API_BASE_URL}/api/reels`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -165,7 +166,7 @@ export default function AdminDashboard() {
     setSuccess('');
     
     try {
-      const res = await fetch(`/api/gallery/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/gallery/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -189,7 +190,7 @@ export default function AdminDashboard() {
     setSuccess('');
 
     try {
-      const res = await fetch(`/api/reels/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/reels/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -324,7 +325,7 @@ export default function AdminDashboard() {
                 {photos.map((item) => (
                   <div key={item._id} className="admin-grid-item glass-panel">
                     <div className="item-thumbnail">
-                      <img src={item.imageUrl} alt={item.caption} />
+                      <img src={item.imageUrl.startsWith('/uploads') ? `${BACKEND_URL}${item.imageUrl}` : item.imageUrl} alt={item.caption} />
                     </div>
                     <div className="item-info">
                       <h4>{item.caption || 'No Caption'}</h4>
