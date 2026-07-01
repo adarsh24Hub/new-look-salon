@@ -263,6 +263,60 @@ export default function Navbar({ gender, onToggleGender }) {
             display: none;
           }
         }
+
+        @media (max-width: 768px) {
+          .nav-container {
+            height: 70px;
+            padding: 0 4%;
+          }
+          .mobile-drawer {
+            top: 70px;
+            padding: 1.5rem;
+            gap: 1.2rem;
+          }
+          .logo-main {
+            font-size: 1.25rem;
+          }
+          .logo-sub {
+            font-size: 0.62rem;
+            letter-spacing: 0.28em;
+          }
+          .gender-toggle-btn {
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            gap: 5px;
+          }
+          .nav-actions {
+            gap: 0.8rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .nav-container {
+            height: 65px;
+            padding: 0 3%;
+          }
+          .mobile-drawer {
+            top: 65px;
+            padding: 1.2rem;
+            gap: 1rem;
+          }
+          .logo-main {
+            font-size: 1.15rem;
+          }
+          .logo-sub {
+            font-size: 0.55rem;
+            letter-spacing: 0.22em;
+          }
+          .gender-toggle-btn {
+            padding: 4px 8px;
+            font-size: 0.7rem;
+            gap: 4px;
+          }
+          .nav-actions {
+            gap: 0.5rem;
+          }
+        }
       `}} />
     </nav>
   );

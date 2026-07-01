@@ -258,7 +258,16 @@ export default function Hero({ gender }) {
           font-weight: 500;
         }
 
+
         @media (max-width: 900px) {
+          .hero-container {
+            height: auto;
+            min-height: 100vh;
+            padding: 95px 5% 40px 5%;
+          }
+          .hero-content {
+            margin-top: 0;
+          }
           .title-en {
             font-size: 2.5rem;
           }
