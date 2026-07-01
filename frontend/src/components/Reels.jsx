@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Play, Video, Instagram, Facebook } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Play, Video, Instagram, Facebook, ChevronLeft, ChevronRight } from 'lucide-react';
 import { API_BASE_URL } from '../config';
 
 const FALLBACK_REELS = [
@@ -24,6 +24,14 @@ const FALLBACK_REELS = [
 export default function Reels({ gender }) {
   const [reels, setReels] = useState([]);
   const [loading, setLoading] = useState(true);
+  const scrollRef = useRef(null);
+
+  const scroll = (direction) => {
+    if (scrollRef.current) {
+      const scrollAmount = direction === 'left' ? -340 : 340;
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     fetchReels();
@@ -70,43 +78,49 @@ export default function Reels({ gender }) {
           <p>Loading trending videos...</p>
         </div>
       ) : (
-        <div className="reels-grid">
-          {filteredReels.map((reel) => (
-            <div key={reel._id} className="reel-card glass-panel">
-              <div className="reel-header-info">
-                {reel.platform === 'instagram' ? (
-                  <Instagram size={18} className="platform-icon insta" />
-                ) : (
-                  <Facebook size={18} className="platform-icon fb" />
-                )}
-                <h3>{reel.title}</h3>
-              </div>
+        filteredReels.length > 0 && (
+          <div className="scroll-wrapper">
+            <button className="scroll-btn left" onClick={() => scroll('left')} aria-label="Scroll left">
+              <ChevronLeft size={20} />
+            </button>
+            <div className="reels-grid" ref={scrollRef}>
+              {filteredReels.map((reel) => (
+                <div key={reel._id} className="reel-card glass-panel">
+                  <div className="reel-header-info">
+                    {reel.platform === 'instagram' ? (
+                      <Instagram size={18} className="platform-icon insta" />
+                    ) : (
+                      <Facebook size={18} className="platform-icon fb" />
+                    )}
+                    <h3>{reel.title}</h3>
+                  </div>
 
-              {/* Video/Iframe Container */}
-              <div className="reel-video-container">
-                {/* 
-                   Check if we have an instagram embed url. 
-                   Instagram iframe embeds need styled frames or simple iframe setup.
-                */}
-                <iframe
-                  src={reel.embedUrl}
-                  title={reel.title}
-                  className="reel-iframe"
-                  scrolling="no"
-                  allowFullScreen
-                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                  frameBorder="0"
-                ></iframe>
-              </div>
-              
-              <div className="reel-footer-actions">
-                <a href={reel.url} target="_blank" rel="noopener noreferrer" className="view-original-link">
-                  Open on {reel.platform === 'instagram' ? 'Instagram' : 'Facebook'}
-                </a>
-              </div>
+                  {/* Video/Iframe Container */}
+                  <div className="reel-video-container">
+                    <iframe
+                      src={reel.embedUrl}
+                      title={reel.title}
+                      className="reel-iframe"
+                      scrolling="no"
+                      allowFullScreen
+                      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                      frameBorder="0"
+                    ></iframe>
+                  </div>
+                  
+                  <div className="reel-footer-actions">
+                    <a href={reel.url} target="_blank" rel="noopener noreferrer" className="view-original-link">
+                      Open on {reel.platform === 'instagram' ? 'Instagram' : 'Facebook'}
+                    </a>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+            <button className="scroll-btn right" onClick={() => scroll('right')} aria-label="Scroll right">
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        )
       )}
 
       {filteredReels.length === 0 && !loading && (
@@ -245,6 +259,62 @@ export default function Reels({ gender }) {
           max-width: 500px;
           margin: 0 auto;
           color: var(--text-secondary);
+        }
+
+        .scroll-wrapper {
+          position: relative;
+          width: 100%;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .scroll-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 20;
+          background: rgba(8, 8, 10, 0.7);
+          border: 1.5px solid var(--accent-color);
+          color: var(--accent-color);
+          border-radius: 50%;
+          width: 44px;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: var(--transition-smooth);
+          box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .scroll-btn:hover {
+          background: var(--accent-color);
+          color: #0d0d0f;
+          box-shadow: 0 4px 20px var(--accent-glow);
+          transform: translateY(-50%) scale(1.05);
+        }
+
+        .scroll-btn.left {
+          left: -22px;
+        }
+
+        .scroll-btn.right {
+          right: -22px;
+        }
+
+        @media (max-width: 1280px) {
+          .scroll-btn.left {
+            left: 10px;
+          }
+          .scroll-btn.right {
+            right: 10px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .scroll-btn {
+            display: none;
+          }
         }
       `}} />
     </section>

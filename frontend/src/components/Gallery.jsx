@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Camera, Image as ImageIcon } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Camera, Image as ImageIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { BACKEND_URL, API_BASE_URL } from '../config';
 
 const FALLBACK_GALLERY = [
@@ -17,6 +17,14 @@ export default function Gallery({ gender }) {
   const [photos, setPhotos] = useState([]);
   const [activeFilter, setActiveFilter] = useState('all');
   const [loading, setLoading] = useState(true);
+  const scrollRef = useRef(null);
+
+  const scroll = (direction) => {
+    if (scrollRef.current) {
+      const scrollAmount = direction === 'left' ? -300 : 300;
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     fetchPhotos();
@@ -104,21 +112,31 @@ export default function Gallery({ gender }) {
           <p>Loading gallery items...</p>
         </div>
       ) : (
-        <div className="gallery-grid">
-          {filteredPhotos.map((photo) => (
-            <div key={photo._id} className="gallery-item glass-panel">
-              <div className="img-container">
-                <img src={photo.imageUrl.startsWith('/uploads') ? `${BACKEND_URL}${photo.imageUrl}` : photo.imageUrl} alt={photo.caption || 'Salon Style'} />
-                <div className="gallery-item-overlay">
-                  <div className="overlay-content">
-                    <span className="photo-category">{photo.category.toUpperCase()}</span>
-                    <h4 className="photo-caption">{photo.caption || 'New Look Styling'}</h4>
+        filteredPhotos.length > 0 && (
+          <div className="scroll-wrapper">
+            <button className="scroll-btn left" onClick={() => scroll('left')} aria-label="Scroll left">
+              <ChevronLeft size={20} />
+            </button>
+            <div className="gallery-grid" ref={scrollRef}>
+              {filteredPhotos.map((photo) => (
+                <div key={photo._id} className="gallery-item glass-panel">
+                  <div className="img-container">
+                    <img src={photo.imageUrl.startsWith('/uploads') ? `${BACKEND_URL}${photo.imageUrl}` : photo.imageUrl} alt={photo.caption || 'Salon Style'} />
+                    <div className="gallery-item-overlay">
+                      <div className="overlay-content">
+                        <span className="photo-category">{photo.category.toUpperCase()}</span>
+                        <h4 className="photo-caption">{photo.caption || 'New Look Styling'}</h4>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
+            <button className="scroll-btn right" onClick={() => scroll('right')} aria-label="Scroll right">
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        )
       )}
 
       {filteredPhotos.length === 0 && !loading && (
@@ -290,6 +308,62 @@ export default function Gallery({ gender }) {
         .muted-icon {
           color: var(--text-muted);
           margin-bottom: 1rem;
+        }
+
+        .scroll-wrapper {
+          position: relative;
+          width: 100%;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .scroll-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 20;
+          background: rgba(8, 8, 10, 0.7);
+          border: 1.5px solid var(--accent-color);
+          color: var(--accent-color);
+          border-radius: 50%;
+          width: 44px;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: var(--transition-smooth);
+          box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .scroll-btn:hover {
+          background: var(--accent-color);
+          color: #0d0d0f;
+          box-shadow: 0 4px 20px var(--accent-glow);
+          transform: translateY(-50%) scale(1.05);
+        }
+
+        .scroll-btn.left {
+          left: -22px;
+        }
+
+        .scroll-btn.right {
+          right: -22px;
+        }
+
+        @media (max-width: 1280px) {
+          .scroll-btn.left {
+            left: 10px;
+          }
+          .scroll-btn.right {
+            right: 10px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .scroll-btn {
+            display: none;
+          }
         }
 
         @keyframes spin {
