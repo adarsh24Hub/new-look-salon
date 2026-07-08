@@ -9,7 +9,7 @@ export default function Footer({ gender }) {
   };
 
   const handleWhatsApp = () => {
-    const phone = '06391763738';
+    const phone = '9984527769';
     const message = 'Hello! I would like to query about services at New Look Salon.';
     window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(message)}`, '_blank');
   };
@@ -51,7 +51,6 @@ export default function Footer({ gender }) {
               <li>
                 <Phone size={18} className="contact-icon" />
                 <div className="phones">
-                  <a href="tel:06391763738">063917 63738</a>
                   <a href="tel:09984527769">099845 27769</a>
                 </div>
               </li>

@@ -37,7 +37,7 @@ export default function Home() {
   };
 
   const handleWhatsAppFloatClick = () => {
-    const phone = '06391763738';
+    const phone = '9984527769';
     const message = `Hello New Look Salon! I'd like to book an appointment for today. Please let me know available slots.`;
     window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(message)}`, '_blank');
   };

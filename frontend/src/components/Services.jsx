@@ -89,7 +89,7 @@ export default function Services({ gender }) {
   }, [gender]);
 
   const handleBookService = (serviceName) => {
-    const phone = '06391763738';
+    const phone = '9984527769';
     const message = `Hello! I would like to book a slot for the "${serviceName}" service. Please let me know when you have an open session.`;
     window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(message)}`, '_blank');
   };

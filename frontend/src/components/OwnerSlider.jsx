@@ -71,7 +71,7 @@ export default function OwnerSlider({ gender }) {
   };
 
   const handleWhatsAppAction = (slide) => {
-    const phone = '06391763738';
+    const phone = '9984527769';
     const message = `Hello New Look Salon! I read the homepage slide "${slide.title}" and would like to inquire or book a service.`;
     window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(message)}`, '_blank');
   };

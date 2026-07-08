@@ -60,7 +60,7 @@ export default function Offers({ gender }) {
   };
 
   const handleBookOffer = (offer) => {
-    const phone = '06391763738';
+    const phone = '9984527769';
     const message = `Hello New Look Salon! I want to claim the offer "${offer.title}"${
       offer.discountCode ? ` (Code: ${offer.discountCode})` : ''
     }. Please let me know available slots to book this.`;

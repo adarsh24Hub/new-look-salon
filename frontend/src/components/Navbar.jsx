@@ -26,7 +26,7 @@ export default function Navbar({ gender, onToggleGender }) {
   };
 
   const handleWhatsAppBooking = () => {
-    const phone = '06391763738';
+    const phone = '9984527769';
     const message = `Hello New Look Salon! I would like to book a slot for some ${gender === 'men' ? 'men\'s grooming' : 'women\'s beauty'} services. Please confirm availability.`;
     window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(message)}`, '_blank');
   };
@@ -36,8 +36,11 @@ export default function Navbar({ gender, onToggleGender }) {
       <div className="nav-wrapper">
         {/* Brand Logo */}
         <Link to="/" className="brand-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <span className="logo-main">NEW LOOK</span>
-          <span className="logo-sub">{gender === 'men' ? 'UNISEX SALON' : 'SPA & BEAUTY'}</span>
+          <img src="/logo.png" alt="New Look Unisex Salon Logo" className="logo-img" />
+          <div className="logo-text-wrapper">
+            <span className="logo-main">NEW LOOK</span>
+            <span className="logo-sub">{gender === 'men' ? 'UNISEX SALON' : 'SPA & BEAUTY'}</span>
+          </div>
         </Link>
 
         {/* Desktop Links */}
@@ -126,21 +129,36 @@ export default function Navbar({ gender, onToggleGender }) {
 
         .brand-logo {
           display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .logo-img {
+          height: 48px;
+          width: 48px;
+          object-fit: cover;
+          border-radius: 50%;
+          border: 1px solid rgba(197, 168, 128, 0.3);
+          box-shadow: 0 0 10px rgba(197, 168, 128, 0.2);
+        }
+
+        .logo-text-wrapper {
+          display: flex;
           flex-direction: column;
         }
 
         .logo-main {
           font-family: var(--font-serif);
-          font-size: 1.5rem;
+          font-size: 1.3rem;
           font-weight: 700;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.04em;
           color: #ffffff;
           line-height: 1.1;
         }
 
         .logo-sub {
-          font-size: 0.7rem;
-          letter-spacing: 0.35em;
+          font-size: 0.65rem;
+          letter-spacing: 0.25em;
           color: var(--accent-color);
           font-weight: 600;
           transition: var(--transition-smooth);

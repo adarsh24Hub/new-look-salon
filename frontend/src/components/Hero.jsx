@@ -4,7 +4,7 @@ import { Calendar, MapPin, Phone, MessageSquare } from 'lucide-react';
 export default function Hero({ gender }) {
   
   const handleWhatsApp = () => {
-    const phone = '06391763738';
+    const phone = '9984527769';
     const message = `Hello! I want to book a session at New Look Unisex Salon. Please let me know the available timings today.`;
     window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(message)}`, '_blank');
   };
@@ -76,7 +76,7 @@ export default function Hero({ gender }) {
             <Phone size={18} className="detail-icon" />
             <div>
               <h4>Call to Book</h4>
-              <p>063917 63738</p>
+              <p>99845 27769</p>
             </div>
           </div>
         </div>
