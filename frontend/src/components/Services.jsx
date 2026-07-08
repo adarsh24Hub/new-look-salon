@@ -3,20 +3,80 @@ import { Scissors, Sparkles, ShieldCheck, HeartHandshake } from 'lucide-react';
 
 const SERVICES_DATA = {
   men: [
-    { name: 'Classic Haircut & Style', price: '₹150 - ₹250', desc: 'Expert haircut tailored to your head shape, including hair wash and styling.' },
-    { name: 'Royal Shave & Beard Design', price: '₹100 - ₹200', desc: 'Relaxing hot towel shave, edge lining, and premium beard oil application.' },
-    { name: 'Nourishing Hair Spa', price: '₹500+', desc: 'Deep conditioning treatment to strengthen roots, repair hair damage, and remove dandruff.' },
-    { name: 'Hydrating Facial & De-Tan', price: '₹400+', desc: 'Rejuvenates skin pores, removes tan, and adds a natural glow. Includes face massage.' },
-    { name: 'Charcoal Deep Clean Mask', price: '₹200', desc: 'Peel-off blackhead removal mask for clear and fresh skin.' },
-    { name: 'Stress-Relief Head Massage', price: '₹150', desc: '15-minute relaxing head massage using premium ayurvedic/almond oils.' }
+    { 
+      name: 'Classic Haircut & Style', 
+      price: '₹150 - ₹250', 
+      desc: 'Expert haircut tailored to your head shape, including hair wash and styling.',
+      image: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=600&auto=format&fit=crop'
+    },
+    { 
+      name: 'Royal Shave & Beard Design', 
+      price: '₹100 - ₹200', 
+      desc: 'Relaxing hot towel shave, edge lining, and premium beard oil application.',
+      image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=600&auto=format&fit=crop'
+    },
+    { 
+      name: 'Nourishing Hair Spa', 
+      price: '₹500+', 
+      desc: 'Deep conditioning treatment to strengthen roots, repair hair damage, and remove dandruff.',
+      image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=600&auto=format&fit=crop'
+    },
+    { 
+      name: 'Hydrating Facial & De-Tan', 
+      price: '₹400+', 
+      desc: 'Rejuvenates skin pores, removes tan, and adds a natural glow. Includes face massage.',
+      image: 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=600&auto=format&fit=crop'
+    },
+    { 
+      name: 'Charcoal Deep Clean Mask', 
+      price: '₹200', 
+      desc: 'Peel-off blackhead removal mask for clear and fresh skin.',
+      image: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=600&auto=format&fit=crop'
+    },
+    { 
+      name: 'Stress-Relief Head Massage', 
+      price: '₹150', 
+      desc: '15-minute relaxing head massage using premium ayurvedic/almond oils.',
+      image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=600&auto=format&fit=crop'
+    }
   ],
   women: [
-    { name: 'Precision Haircut & Blowdry', price: '₹400 - ₹800', desc: 'Modern haircuts, styling, layers, bob, including professional blowdry.' },
-    { name: 'Keratin & Smoothing Spa', price: '₹1500+', desc: 'Premium chemical-free smoothing spa to make your hair silk-soft and frizz-free.' },
-    { name: 'Bridal & Party Makeover', price: 'On Request', desc: 'Professional HD makeup, hairstyling, and draping for special occasions.' },
-    { name: 'Gold Radiant Facial', price: '₹800+', desc: 'Premium multi-step facial with gold leaf extracts for bridal-level glowing skin.' },
-    { name: 'Organic Waxing & Threading', price: '₹150+', desc: 'Safe, hygienic waxing (honey/ricca) and precise eyebrow shaping.' },
-    { name: 'Luxury Pedicure / Manicure', price: '₹400 - ₹700', desc: 'Detoxifying bubble bath for hands & feet, scrubbing, cuticle care, and massage.' }
+    { 
+      name: 'Precision Haircut & Blowdry', 
+      price: '₹400 - ₹800', 
+      desc: 'Modern haircuts, styling, layers, bob, including professional blowdry.',
+      image: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=600&auto=format&fit=crop'
+    },
+    { 
+      name: 'Keratin & Smoothing Spa', 
+      price: '₹1500+', 
+      desc: 'Premium chemical-free smoothing spa to make your hair silk-soft and frizz-free.',
+      image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=600&auto=format&fit=crop'
+    },
+    { 
+      name: 'Bridal & Party Makeover', 
+      price: 'On Request', 
+      desc: 'Professional HD makeup, hairstyling, and draping for special occasions.',
+      image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=600&auto=format&fit=crop'
+    },
+    { 
+      name: 'Gold Radiant Facial', 
+      price: '₹800+', 
+      desc: 'Premium multi-step facial with gold leaf extracts for bridal-level glowing skin.',
+      image: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=600&auto=format&fit=crop'
+    },
+    { 
+      name: 'Organic Waxing & Threading', 
+      price: '₹150+', 
+      desc: 'Safe, hygienic waxing (honey/ricca) and precise eyebrow shaping.',
+      image: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=600&auto=format&fit=crop'
+    },
+    { 
+      name: 'Luxury Pedicure / Manicure', 
+      price: '₹400 - ₹700', 
+      desc: 'Detoxifying bubble bath for hands & feet, scrubbing, cuticle care, and massage.',
+      image: 'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?q=80&w=600&auto=format&fit=crop'
+    }
   ]
 };
 
@@ -62,18 +122,25 @@ export default function Services({ gender }) {
       <div className="services-grid animate-fade-in">
         {SERVICES_DATA[activeTab].map((service, index) => (
           <div key={index} className="service-card glass-panel">
-            <div className="service-card-header">
-              <div className="service-icon-box">
-                {activeTab === 'men' ? <Scissors size={18} /> : <Sparkles size={18} />}
-              </div>
-              <span className="service-price">{service.price}</span>
+            <div className="service-image-box">
+              <img src={service.image} alt={service.name} className="service-card-img" />
+              <div className="service-image-overlay"></div>
             </div>
-            <h3 className="service-title">{service.name}</h3>
-            <p className="service-desc">{service.desc}</p>
             
-            <button className="service-book-btn" onClick={() => handleBookService(service.name)}>
-              Book Service
-            </button>
+            <div className="service-card-content">
+              <div className="service-card-header">
+                <div className="service-icon-box">
+                  {activeTab === 'men' ? <Scissors size={18} /> : <Sparkles size={18} />}
+                </div>
+                <span className="service-price">{service.price}</span>
+              </div>
+              <h3 className="service-title">{service.name}</h3>
+              <p className="service-desc">{service.desc}</p>
+              
+              <button className="service-book-btn" onClick={() => handleBookService(service.name)}>
+                Book Service
+              </button>
+            </div>
           </div>
         ))}
       </div>
@@ -145,7 +212,7 @@ export default function Services({ gender }) {
         .services-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-          gap: 2rem;
+          gap: 2.2rem;
           max-width: 1200px;
           margin: 0 auto 5rem auto;
           position: relative;
@@ -153,7 +220,8 @@ export default function Services({ gender }) {
         }
 
         .service-card {
-          padding: 2.2rem;
+          padding: 0;
+          overflow: hidden;
           display: flex;
           flex-direction: column;
           border-color: rgba(255, 255, 255, 0.05);
@@ -166,18 +234,54 @@ export default function Services({ gender }) {
           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
         }
 
+        .service-image-box {
+          position: relative;
+          height: 190px;
+          width: 100%;
+          overflow: hidden;
+          background: #000;
+        }
+
+        .service-card-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .service-card:hover .service-card-img {
+          transform: scale(1.06);
+        }
+
+        .service-image-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(to top, rgba(8, 8, 10, 0.7) 0%, transparent 50%);
+          pointer-events: none;
+        }
+
+        .service-card-content {
+          padding: 1.8rem;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+        }
+
         .service-card-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 1.2rem;
+          margin-bottom: 1rem;
         }
 
         .service-icon-box {
           background: rgba(197, 168, 128, 0.1);
           color: var(--accent-color);
-          width: 42px;
-          height: 42px;
+          width: 38px;
+          height: 38px;
           border-radius: 50%;
           display: flex;
           align-items: center;
@@ -192,21 +296,22 @@ export default function Services({ gender }) {
 
         .service-price {
           font-family: var(--font-serif);
-          font-size: 1.1rem;
+          font-size: 1.05rem;
           font-weight: 700;
           color: var(--accent-color);
         }
 
         .service-title {
-          font-size: 1.3rem;
-          margin-bottom: 0.8rem;
+          font-size: 1.25rem;
+          margin-bottom: 0.6rem;
           letter-spacing: 0.02em;
         }
 
         .service-desc {
-          font-size: 0.88rem;
+          font-size: 0.85rem;
           color: var(--text-secondary);
-          margin-bottom: 2rem;
+          margin-bottom: 1.8rem;
+          line-height: 1.55;
           flex-grow: 1;
         }
 
@@ -252,6 +357,7 @@ export default function Services({ gender }) {
           color: var(--accent-color);
           flex-shrink: 0;
           margin-top: 3px;
+          margin-right: 0px;
         }
 
         .usp-item h3 {
