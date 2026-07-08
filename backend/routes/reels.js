@@ -4,7 +4,7 @@ const Reel = require('../models/Reel');
 const auth = require('../middleware/auth');
 
 // Helper to convert regular Insta/FB links to Embed URLs
-function getEmbedUrl(url) {
+async function getEmbedUrl(url) {
   let embedUrl = url;
   let platform = 'other';
 
@@ -24,8 +24,25 @@ function getEmbedUrl(url) {
   // Facebook
   else if (url.includes('facebook.com') || url.includes('fb.watch') || url.includes('fb.com')) {
     platform = 'facebook';
+    let targetUrl = url;
+    
+    // Check if it is a Facebook share or shortlink, and resolve redirect natively
+    if (url.includes('/share/') || url.includes('fb.watch') || url.includes('fb.com')) {
+      try {
+        const response = await fetch(url, { method: 'GET', redirect: 'manual' });
+        if (response.status === 302 || response.status === 301) {
+          const loc = response.headers.get('location');
+          if (loc) {
+            targetUrl = loc;
+          }
+        }
+      } catch (err) {
+        console.error('Error resolving facebook redirect:', err);
+      }
+    }
+    
     // FB uses the video plugin player. We URL-encode the source URL
-    embedUrl = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=0&width=380&t=0`;
+    embedUrl = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(targetUrl)}&show_text=0&width=380&t=0`;
   }
 
   return { embedUrl, platform };
@@ -59,7 +76,7 @@ router.post('/', auth, async (req, res) => {
       return res.status(400).json({ msg: 'Please provide a video/reel URL' });
     }
 
-    const { embedUrl, platform } = getEmbedUrl(url);
+    const { embedUrl, platform } = await getEmbedUrl(url);
 
     const newReel = new Reel({
       title: title || 'Salon Reel',
