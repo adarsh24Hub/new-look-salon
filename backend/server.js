@@ -31,6 +31,8 @@ mongoose.connect(MONGO_URI)
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/gallery', require('./routes/gallery'));
 app.use('/api/reels', require('./routes/reels'));
+app.use('/api/offers', require('./routes/offers'));
+app.use('/api/slides', require('./routes/slides'));
 
 // Simple Base route for health checks
 app.get('/', (req, res) => {

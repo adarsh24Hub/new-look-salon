@@ -7,6 +7,8 @@ import Reels from '../components/Reels';
 import Footer from '../components/Footer';
 import Reviews from '../components/Reviews';
 import GenderGate from '../components/GenderGate';
+import Offers from '../components/Offers';
+import OwnerSlider from '../components/OwnerSlider';
 import { MessageCircle } from 'lucide-react';
 
 export default function Home() {
@@ -56,6 +58,12 @@ export default function Home() {
           
           {/* Hero Banner Section */}
           <Hero gender={gender} />
+
+          {/* Owner biography, credentials, awards slide banner */}
+          <OwnerSlider gender={gender} />
+          
+          {/* Offers & Discounts Section */}
+          <Offers gender={gender} />
           
           {/* Services Section */}
           <Services gender={gender} />

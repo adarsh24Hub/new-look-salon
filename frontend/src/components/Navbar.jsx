@@ -43,13 +43,11 @@ export default function Navbar({ gender, onToggleGender }) {
         {/* Desktop Links */}
         <div className="desktop-menu">
           <a href="#home" onClick={(e) => handleNavClick(e, 'home')}>Home</a>
+          <a href="#offers" onClick={(e) => handleNavClick(e, 'offers')}>Offers</a>
           <a href="#services" onClick={(e) => handleNavClick(e, 'services')}>Services</a>
           <a href="#gallery" onClick={(e) => handleNavClick(e, 'gallery')}>Gallery</a>
           <a href="#reels" onClick={(e) => handleNavClick(e, 'reels')}>Trending Reels</a>
           <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')}>Contact</a>
-          
-          {/* Subtle Admin Link */}
-          <Link to="/admin" className="admin-nav-link">Admin</Link>
         </div>
 
         {/* Gender Toggle and CTA */}
@@ -85,11 +83,11 @@ export default function Navbar({ gender, onToggleGender }) {
       {isOpen && (
         <div className="mobile-drawer glass-panel animate-fade-in">
           <a href="#home" onClick={(e) => handleNavClick(e, 'home')}>Home</a>
+          <a href="#offers" onClick={(e) => handleNavClick(e, 'offers')}>Offers & Discounts</a>
           <a href="#services" onClick={(e) => handleNavClick(e, 'services')}>Services</a>
           <a href="#gallery" onClick={(e) => handleNavClick(e, 'gallery')}>Gallery</a>
           <a href="#reels" onClick={(e) => handleNavClick(e, 'reels')}>Trending Reels</a>
           <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')}>Contact</a>
-          <Link to="/admin" onClick={() => setIsOpen(false)}>Admin Panel</Link>
 
           <div className="drawer-actions">
             <button className="btn-gold w-full" onClick={handleWhatsAppBooking}>

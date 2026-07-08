@@ -103,7 +103,21 @@ export default function Footer({ gender }) {
             &copy; {new Date().getFullYear()} New Look Unisex Salon. All Rights Reserved.
           </p>
           <div className="footer-bottom-links">
-            <Link to="/admin" className="admin-portal-link">Admin Portal</Link>
+            <Link 
+              to="/admin" 
+              style={{ 
+                opacity: 0.15, 
+                fontSize: '0.75rem', 
+                color: 'inherit', 
+                textDecoration: 'none',
+                cursor: 'pointer',
+                transition: 'opacity 0.3s'
+              }}
+              onMouseEnter={(e) => e.target.style.opacity = 1}
+              onMouseLeave={(e) => e.target.style.opacity = 0.15}
+            >
+              Admin Panel
+            </Link>
             <button className="scroll-top-btn" onClick={handleScrollTop} title="Scroll to Top">
               <ArrowUp size={16} />
             </button>
