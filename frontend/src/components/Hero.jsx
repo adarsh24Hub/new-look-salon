@@ -31,7 +31,7 @@ export default function Hero({ gender }) {
         {/* Bilingual Header */}
         <h1 className="hero-title">
           <span className="title-en">NEW LOOK UNISEX SALON</span>
-          <span className="title-hi">न्यू लुक यूनिसेक्स सालों</span>
+          <span className="title-hi">न्यू लुक यूनिसेक्स सैलून</span>
         </h1>
         
         <p className="hero-subtitle">

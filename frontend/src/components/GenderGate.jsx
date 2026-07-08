@@ -17,7 +17,7 @@ export default function GenderGate({ onSelectGender }) {
       <div className="gate-header">
         <Sparkles className="gold-icon" size={28} />
         <h1>NEW LOOK UNISEX SALON</h1>
-        <p className="subtitle">न्यू लुक यूनिसेक्स सालों</p>
+        <p className="subtitle">न्यू लुक यूनिसेक्स सैलून</p>
       </div>
 
       <div className="gate-split">

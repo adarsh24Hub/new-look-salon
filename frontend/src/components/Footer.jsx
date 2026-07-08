@@ -22,7 +22,7 @@ export default function Footer({ gender }) {
           {/* Brand Info */}
           <div className="footer-col brand-col">
             <h2>NEW LOOK</h2>
-            <p className="brand-hindi">न्यू लुक यूनिसेक्स सालों</p>
+            <p className="brand-hindi">न्यू लुक यूनिसेक्स सैलून</p>
             <p className="brand-desc">
               Prayagraj's premier styling destination. Step in to transform your look with our professional barbers, makeup artists, and spa therapists.
             </p>
