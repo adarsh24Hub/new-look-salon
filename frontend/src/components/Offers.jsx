@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Gift, Copy, Check, MessageSquare, X, Calendar, Sparkles, AlertCircle } from 'lucide-react';
+import { Gift, Copy, Check, MessageSquare, X, Calendar, Sparkles, AlertCircle, Tag } from 'lucide-react';
 import { API_BASE_URL } from '../config';
 
 export default function Offers({ gender }) {
