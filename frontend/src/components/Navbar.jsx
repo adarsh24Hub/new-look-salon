@@ -46,7 +46,7 @@ export default function Navbar({ gender, onToggleGender }) {
         {/* Desktop Links */}
         <div className="desktop-menu">
           <a href="#home" onClick={(e) => handleNavClick(e, 'home')}>Home</a>
-          <a href="#about-owner" onClick={(e) => handleNavClick(e, 'about-owner')}>Offers</a>
+          <a href="#offers" onClick={(e) => handleNavClick(e, 'offers')}>Offers</a>
           <a href="#services" onClick={(e) => handleNavClick(e, 'services')}>Services</a>
           <a href="#gallery" onClick={(e) => handleNavClick(e, 'gallery')}>Gallery</a>
           <a href="#reels" onClick={(e) => handleNavClick(e, 'reels')}>Trending Reels</a>
@@ -86,7 +86,7 @@ export default function Navbar({ gender, onToggleGender }) {
       {isOpen && (
         <div className="mobile-drawer glass-panel animate-fade-in">
           <a href="#home" onClick={(e) => handleNavClick(e, 'home')}>Home</a>
-          <a href="#about-owner" onClick={(e) => handleNavClick(e, 'about-owner')}>Offers & Discounts</a>
+          <a href="#offers" onClick={(e) => handleNavClick(e, 'offers')}>Offers & Discounts</a>
           <a href="#services" onClick={(e) => handleNavClick(e, 'services')}>Services</a>
           <a href="#gallery" onClick={(e) => handleNavClick(e, 'gallery')}>Gallery</a>
           <a href="#reels" onClick={(e) => handleNavClick(e, 'reels')}>Trending Reels</a>

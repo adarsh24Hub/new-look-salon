@@ -79,39 +79,36 @@ export default function Offers({ gender }) {
     return null; // Don't block the UI with a big loading spinner for offers
   }
 
-  // If there are no offers, do not display anything
-  if (offers.length === 0) {
-    return null;
-  }
-
   // Find the primary featured offer for the pop-up (usually the newest one)
-  const featuredOffer = offers[0];
+  const featuredOffer = offers[0] || {};
 
-  // Helper to generate random particles for pure CSS confetti
-  const sparklesArray = Array.from({ length: 45 }, (_, i) => {
+  // Helper to generate random particles for pure CSS confetti (only if offers exist)
+  const sparklesArray = offers.length > 0 ? Array.from({ length: 45 }, (_, i) => {
     const angle = (i * 360) / 45 + Math.random() * 15;
     const distance = 80 + Math.random() * 120;
     const size = 6 + Math.random() * 10;
     const color = i % 3 === 0 ? '#ffea7a' : i % 3 === 1 ? '#c5a880' : '#ffffff';
     const delay = Math.random() * 0.4;
     return { angle, distance, size, color, delay };
-  });
+  }) : [];
 
   return (
     <>
       {/* 1. FLOATING GIFT TRIGGER BUTTON */}
-      <button
-        className="floating-gift-trigger"
-        onClick={() => {
-          setIsModalOpen(true);
-          setIsUnwrapped(false);
-        }}
-        title="Unwrap Special Offers!"
-      >
-        <div className="gift-pulse-ring"></div>
-        <Gift size={28} className="gift-icon-bounce" />
-        <span className="gift-tooltip">Special Offers!</span>
-      </button>
+      {offers.length > 0 && (
+        <button
+          className="floating-gift-trigger"
+          onClick={() => {
+            setIsModalOpen(true);
+            setIsUnwrapped(false);
+          }}
+          title="Unwrap Special Offers!"
+        >
+          <div className="gift-pulse-ring"></div>
+          <Gift size={28} className="gift-icon-bounce" />
+          <span className="gift-tooltip">Special Offers!</span>
+        </button>
+      )}
 
       {/* 2. MAIN OFFERS SECTION ON HOME PAGE */}
       <section className="offers-section" id="offers">
@@ -124,8 +121,15 @@ export default function Offers({ gender }) {
         </div>
 
         <div className="offers-grid-container max-w-7xl mx-auto px-4">
-          <div className="offers-display-grid">
-            {offers.map((offer) => (
+          {offers.length === 0 ? (
+            <div className="no-offers-placeholder glass-panel" style={{ padding: '3rem', textAlign: 'center', maxWidth: '600px', margin: '0 auto', borderColor: 'rgba(197, 168, 128, 0.15)' }}>
+              <Tag size={40} style={{ color: 'var(--accent-color)', marginBottom: '1rem', opacity: 0.8 }} />
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#ffffff' }}>New Deals Coming Soon!</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>We are designing new exclusive offers for you. Keep checking this space or ask our stylists during your visit!</p>
+            </div>
+          ) : (
+            <div className="offers-display-grid">
+              {offers.map((offer) => (
               <div 
                 key={offer._id} 
                 className="offer-card-wrapper glass-panel animate-slide-up"
@@ -197,8 +201,9 @@ export default function Offers({ gender }) {
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        )}
+      </div>
+    </section>
 
       {/* 3. INTERACTIVE CONFETTI & GIFT BOX MODAL */}
       {isModalOpen && (
