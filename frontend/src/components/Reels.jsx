@@ -24,6 +24,7 @@ const FALLBACK_REELS = [
 export default function Reels({ gender }) {
   const [reels, setReels] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeReelId, setActiveReelId] = useState(null);
   const scrollRef = useRef(null);
 
   const scroll = (direction) => {
@@ -96,8 +97,46 @@ export default function Reels({ gender }) {
                   </div>
 
                   {/* Video/Iframe Container */}
-                  <div className="reel-video-container">
+                  <div className="reel-video-container" style={{ position: 'relative' }}>
+                    {activeReelId !== reel._id && (
+                      <div 
+                        className="reel-click-capture-overlay"
+                        onClick={() => setActiveReelId(reel._id)}
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          zIndex: 100,
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          background: 'rgba(0, 0, 0, 0.45)',
+                          backdropFilter: 'blur(1px)',
+                          transition: 'background 0.3s'
+                        }}
+                      >
+                        <div 
+                          className="play-button-glowing"
+                          style={{
+                            width: '60px',
+                            height: '60px',
+                            borderRadius: '50%',
+                            background: 'var(--gold-gradient)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '0 0 15px rgba(197, 168, 128, 0.4)'
+                          }}
+                        >
+                          <Play size={24} style={{ color: '#0d0d0f', fill: '#0d0d0f', marginLeft: '3px' }} />
+                        </div>
+                      </div>
+                    )}
                     <iframe
+                      key={reel._id + (activeReelId === reel._id ? '-active' : '-inactive')}
                       src={reel.embedUrl}
                       title={reel.title}
                       className="reel-iframe"

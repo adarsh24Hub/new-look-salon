@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Image as ImageIcon, Video, Plus, Trash2, ArrowLeft, Check, AlertCircle, Gift, Edit2, Sparkles } from 'lucide-react';
+import { LogOut, Image as ImageIcon, Video, Plus, Trash2, ArrowLeft, Check, AlertCircle, Gift, Edit2, Sparkles, MessageSquare, Star, Settings, Scissors } from 'lucide-react';
 import { BACKEND_URL, API_BASE_URL } from '../config';
 
 export default function AdminDashboard() {
@@ -9,6 +9,17 @@ export default function AdminDashboard() {
   const [reels, setReels] = useState([]);
   const [offers, setOffers] = useState([]);
   const [slides, setSlides] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [adminServices, setAdminServices] = useState([]);
+  const [founderFile, setFounderFile] = useState(null);
+  const [currentFounderImg, setCurrentFounderImg] = useState('');
+  const [serviceName, setServiceName] = useState('');
+  const [servicePrice, setServicePrice] = useState('');
+  const [serviceDesc, setServiceDesc] = useState('');
+  const [serviceCategory, setServiceCategory] = useState('hair');
+  const [serviceGender, setServiceGender] = useState('both');
+  const [serviceFile, setServiceFile] = useState(null);
+  const [editingServiceId, setEditingServiceId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -59,7 +70,200 @@ export default function AdminDashboard() {
     fetchReels();
     fetchOffers();
     fetchSlides();
+    fetchReviews();
+    fetchAdminServices();
+    fetchSettings();
   }, [token]);
+
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/settings/founder_image`);
+      if (res.ok) {
+        const data = await res.json();
+        setCurrentFounderImg(data.value);
+      }
+    } catch (err) {
+      console.error('Error fetching setting:', err);
+    }
+  };
+
+  const handleSaveSettings = async (e) => {
+    e.preventDefault();
+    if (!founderFile) {
+      setError('Please select an image file to upload.');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    const formData = new FormData();
+    formData.append('image', founderFile);
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/settings/founder_image`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.msg || 'Failed to update founder image');
+      setSuccess('Founder portrait updated successfully!');
+      setCurrentFounderImg(data.value);
+      setFounderFile(null);
+      const fileInput = document.getElementById('founder-file-input');
+      if (fileInput) fileInput.value = '';
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchAdminServices = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/services`);
+      if (res.ok) {
+        const data = await res.json();
+        setAdminServices(data);
+      }
+    } catch (err) {
+      console.error('Error fetching services:', err);
+    }
+  };
+
+  const handleSaveService = async (e) => {
+    e.preventDefault();
+    if (!serviceName || !servicePrice || !serviceCategory) {
+      setError('Please fill in Name, Price, and Category');
+      return;
+    }
+    if (!editingServiceId && !serviceFile) {
+      setError('Please select an image file for the service');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    const formData = new FormData();
+    formData.append('name', serviceName);
+    formData.append('price', servicePrice);
+    formData.append('desc', serviceDesc);
+    formData.append('category', serviceCategory);
+    formData.append('gender', serviceGender);
+    if (serviceFile) {
+      formData.append('image', serviceFile);
+    }
+
+    try {
+      const url = editingServiceId 
+        ? `${API_BASE_URL}/api/services/${editingServiceId}`
+        : `${API_BASE_URL}/api/services`;
+      
+      const method = editingServiceId ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method: method,
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.msg || 'Failed to save service');
+      
+      setSuccess(editingServiceId ? 'Service updated successfully!' : 'Service created successfully!');
+      resetServiceForm();
+      fetchAdminServices();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleStartEditService = (service) => {
+    setEditingServiceId(service._id);
+    setServiceName(service.name);
+    setServicePrice(service.price);
+    setServiceDesc(service.desc || '');
+    setServiceCategory(service.category);
+    setServiceGender(service.gender);
+    setServiceFile(null);
+  };
+
+  const handleDeleteService = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this service?')) return;
+    setLoading(true);
+    setError('');
+    setSuccess('');
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/services/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.msg || 'Failed to delete service');
+      setSuccess('Service deleted successfully!');
+      fetchAdminServices();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resetServiceForm = () => {
+    setServiceName('');
+    setServicePrice('');
+    setServiceDesc('');
+    setServiceCategory('hair');
+    setServiceGender('both');
+    setServiceFile(null);
+    setEditingServiceId(null);
+    const fileInput = document.getElementById('service-file-input');
+    if (fileInput) fileInput.value = '';
+  };
+
+  const fetchReviews = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/reviews`);
+      if (res.ok) {
+        const data = await res.json();
+        setReviews(data);
+      }
+    } catch (err) {
+      console.error('Error fetching reviews:', err);
+    }
+  };
+
+  const handleDeleteReview = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this review?')) return;
+    setLoading(true);
+    setError('');
+    setSuccess('');
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/reviews/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.msg || 'Failed to delete review');
+      setSuccess('Review deleted successfully!');
+      fetchReviews();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchOffers = async () => {
     try {
@@ -512,6 +716,27 @@ export default function AdminDashboard() {
           >
             <Sparkles size={18} />
             <span>Manage Slides</span>
+          </button>
+          <button 
+            className={`side-tab-btn ${activeTab === 'reviews' ? 'active' : ''}`}
+            onClick={() => { setActiveTab('reviews'); setError(''); setSuccess(''); fetchReviews(); }}
+          >
+            <MessageSquare size={18} />
+            <span>Manage Reviews</span>
+          </button>
+          <button 
+            className={`side-tab-btn ${activeTab === 'services' ? 'active' : ''}`}
+            onClick={() => { setActiveTab('services'); setError(''); setSuccess(''); fetchAdminServices(); }}
+          >
+            <Scissors size={18} />
+            <span>Manage Services</span>
+          </button>
+          <button 
+            className={`side-tab-btn ${activeTab === 'settings' ? 'active' : ''}`}
+            onClick={() => { setActiveTab('settings'); setError(''); setSuccess(''); fetchSettings(); }}
+          >
+            <Settings size={18} />
+            <span>Salon Settings</span>
           </button>
         </aside>
 
@@ -999,6 +1224,311 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                 ))}
+              </div>
+
+            </div>
+          )}
+
+          {/* TAB 5: Reviews Management */}
+          {activeTab === 'reviews' && (
+            <div className="workspace-tab-content animate-fade-in">
+              <div className="admin-card glass-panel">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                  <h3 style={{ margin: 0 }}>Client Feedback / Reviews ({reviews.length})</h3>
+                  <button onClick={fetchReviews} className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.8rem' }}>
+                    Refresh
+                  </button>
+                </div>
+
+                {reviews.length === 0 ? (
+                  <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '2rem' }}>
+                    No client feedback has been submitted yet.
+                  </p>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+                    {reviews.map((rev) => (
+                      <div 
+                        key={rev._id} 
+                        className="glass-panel" 
+                        style={{ 
+                          padding: '1.2rem', 
+                          borderRadius: '8px', 
+                          border: '1px solid rgba(255,255,255,0.03)',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'flex-start',
+                          gap: '1.5rem'
+                        }}
+                      >
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '0.5rem' }}>
+                            <div 
+                              style={{ 
+                                width: '32px', 
+                                height: '32px', 
+                                borderRadius: '50%', 
+                                background: 'var(--gold-gradient)', 
+                                color: '#0d0d0f',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                fontWeight: '700',
+                                fontSize: '0.9rem',
+                                flexShrink: 0
+                              }}
+                            >
+                              {rev.name.charAt(0)}
+                            </div>
+                            <div>
+                              <h4 style={{ margin: 0, fontSize: '0.95rem', color: '#ffffff' }}>{rev.name}</h4>
+                              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                                {rev.details} • {new Date(rev.createdAt).toLocaleDateString()}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div style={{ display: 'flex', gap: '2px', marginBottom: '0.6rem' }}>
+                            {[...Array(rev.rating)].map((_, i) => (
+                              <Star key={i} size={12} style={{ color: '#fbbf24', fill: '#fbbf24' }} />
+                            ))}
+                          </div>
+
+                          <p style={{ margin: 0, fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+                            {rev.text}
+                          </p>
+                        </div>
+
+                        <button 
+                          onClick={() => handleDeleteReview(rev._id)} 
+                          className="btn-delete"
+                          style={{ 
+                            padding: '6px 12px', 
+                            fontSize: '0.75rem',
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '4px',
+                            background: 'rgba(239, 68, 68, 0.1)',
+                            border: '1px solid rgba(239, 68, 68, 0.2)',
+                            color: '#f87171',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            height: '30px'
+                          }}
+                        >
+                          <Trash2 size={12} />
+                          Delete
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 6: Settings */}
+          {activeTab === 'settings' && (
+            <div className="workspace-tab-content animate-fade-in">
+              <div className="admin-card glass-panel">
+                <h3>Salon Settings</h3>
+                <p className="tab-subtitle" style={{ color: 'var(--text-muted)', marginBottom: '2rem', fontSize: '0.85rem' }}>
+                  Manage general configuration and dynamic homepage images.
+                </p>
+
+                <form onSubmit={handleSaveSettings} className="admin-form" style={{ maxWidth: '500px' }}>
+                  <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                    <label style={{ display: 'block', fontWeight: '600', marginBottom: '0.5rem' }}>Homepage Founder Portrait Image</label>
+                    
+                    {currentFounderImg && (
+                      <div style={{ marginBottom: '1rem' }}>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>Current Image Preview:</p>
+                        <img 
+                          src={currentFounderImg} 
+                          alt="Founder Saddam Hussain" 
+                          style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--accent-color)' }} 
+                        />
+                      </div>
+                    )}
+
+                    <input 
+                      id="founder-file-input"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setFounderFile(e.target.files[0])}
+                      style={{
+                        width: '100%',
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '1px solid rgba(255,255,255,0.08)',
+                        borderRadius: '4px',
+                        padding: '10px',
+                        color: '#ffffff'
+                      }}
+                    />
+                  </div>
+
+                  <button type="submit" className="btn-primary" disabled={loading} style={{ padding: '0.8rem 2rem' }}>
+                    {loading ? 'Uploading...' : 'Save Settings'}
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 7: Services Management */}
+          {activeTab === 'services' && (
+            <div className="workspace-tab-content animate-fade-in">
+              
+              {/* Form Card */}
+              <div className="admin-card glass-panel">
+                <h3>{editingServiceId ? 'Edit Service Details' : 'Add New Service'}</h3>
+                <form onSubmit={handleSaveService} className="admin-form">
+                  <div className="form-row-two">
+                    <div className="form-group">
+                      <label>Service Name *</label>
+                      <input 
+                        type="text" 
+                        placeholder="e.g. Haircut & Styling"
+                        value={serviceName}
+                        onChange={(e) => setServiceName(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Service Price *</label>
+                      <input 
+                        type="text" 
+                        placeholder="e.g. ₹60 or ₹500+"
+                        value={servicePrice}
+                        onChange={(e) => setServicePrice(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-row-two">
+                    <div className="form-group">
+                      <label>Category *</label>
+                      <select value={serviceCategory} onChange={(e) => setServiceCategory(e.target.value)}>
+                        <option value="hair">Hair Styling</option>
+                        <option value="waxing">Waxing & Threading</option>
+                        <option value="facial">Facial & De-Tan</option>
+                        <option value="spa">Spa & Relaxation</option>
+                        <option value="makeup">Makeup & Bridal</option>
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <label>Target Gender *</label>
+                      <select value={serviceGender} onChange={(e) => setServiceGender(e.target.value)}>
+                        <option value="both">Both / Unisex</option>
+                        <option value="men">Gentlemen Only</option>
+                        <option value="women">Ladies Only</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Description (Service Details)</label>
+                    <textarea 
+                      placeholder="Brief details about the service treatment..."
+                      value={serviceDesc}
+                      onChange={(e) => setServiceDesc(e.target.value)}
+                      rows={3}
+                      style={{
+                        width: '100%',
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '1px solid rgba(255,255,255,0.08)',
+                        borderRadius: '4px',
+                        padding: '10px 12px',
+                        color: '#ffffff',
+                        fontSize: '0.9rem',
+                        transition: 'var(--transition-smooth)',
+                        resize: 'vertical',
+                        fontFamily: 'inherit'
+                      }}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Service Image File {editingServiceId && '(Leave empty to keep current)'}</label>
+                    <input 
+                      id="service-file-input"
+                      type="file" 
+                      accept="image/*"
+                      onChange={(e) => setServiceFile(e.target.files[0])}
+                      style={{
+                        width: '100%',
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '1px solid rgba(255,255,255,0.08)',
+                        borderRadius: '4px',
+                        padding: '10px',
+                        color: '#ffffff'
+                      }}
+                    />
+                  </div>
+
+                  <div className="form-actions-row">
+                    <button type="submit" className="btn-primary" disabled={loading} style={{ padding: '0.8rem 2rem' }}>
+                      {loading ? 'Saving...' : (editingServiceId ? 'Update Service' : 'Add Service')}
+                    </button>
+                    {editingServiceId && (
+                      <button type="button" className="btn-outline" onClick={resetServiceForm} style={{ margin: 0, padding: '0.8rem 2rem' }}>
+                        Cancel Edit
+                      </button>
+                    )}
+                  </div>
+                </form>
+              </div>
+
+              {/* List Card */}
+              <div className="admin-card glass-panel" style={{ marginTop: '2rem' }}>
+                <h3>Grooming & Styling Menu ({adminServices.length})</h3>
+                {adminServices.length === 0 ? (
+                  <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '2rem' }}>
+                    No services have been created yet.
+                  </p>
+                ) : (
+                  <div className="admin-list-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.5rem', marginTop: '1rem' }}>
+                    {adminServices.map((item) => (
+                      <div key={item._id} className="admin-list-item glass-panel" style={{ display: 'flex', flexDirection: 'column', height: '100%', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '8px', overflow: 'hidden' }}>
+                        <img 
+                          src={item.imageUrl} 
+                          alt={item.name} 
+                          style={{ width: '100%', height: '140px', objectFit: 'cover' }} 
+                        />
+                        <div style={{ padding: '1rem', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                            <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--accent-color)', fontWeight: '700' }}>
+                              {item.category} • {item.gender}
+                            </span>
+                            <span style={{ fontWeight: '700', color: '#ffffff' }}>{item.price}</span>
+                          </div>
+                          <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem', color: '#ffffff' }}>{item.name}</h4>
+                          <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: '0 0 1rem 0', flexGrow: 1, lineHighlight: '1.4' }}>
+                            {item.desc || 'No description provided.'}
+                          </p>
+                          <div style={{ display: 'flex', gap: '0.8rem' }}>
+                            <button 
+                              className="btn-outline" 
+                              onClick={() => handleStartEditService(item)}
+                              style={{ flex: 1, margin: 0, padding: '4px 8px', fontSize: '0.75rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '4px', height: '30px' }}
+                            >
+                              <Edit2 size={12} />
+                              Edit
+                            </button>
+                            <button 
+                              className="btn-delete" 
+                              onClick={() => handleDeleteService(item._id)}
+                              style={{ flex: 1, margin: 0, padding: '4px 8px', fontSize: '0.75rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '4px', height: '30px' }}
+                            >
+                              <Trash2 size={12} />
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
             </div>

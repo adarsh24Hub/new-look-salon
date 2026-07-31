@@ -33,6 +33,9 @@ app.use('/api/gallery', require('./routes/gallery'));
 app.use('/api/reels', require('./routes/reels'));
 app.use('/api/offers', require('./routes/offers'));
 app.use('/api/slides', require('./routes/slides'));
+app.use('/api/reviews', require('./routes/reviews'));
+app.use('/api/settings', require('./routes/settings'));
+app.use('/api/services', require('./routes/services'));
 
 // Simple Base route for health checks
 app.get('/', (req, res) => {

@@ -27,10 +27,10 @@ export default function Footer({ gender }) {
               Prayagraj's premier styling destination. Step in to transform your look with our professional barbers, makeup artists, and spa therapists.
             </p>
             <div className="social-links">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon-btn insta" title="Instagram">
+              <a href="https://www.instagram.com/newlook__unisexsalon?igsh=NWU0aHZhNHBud292" target="_blank" rel="noopener noreferrer" className="social-icon-btn insta" title="Instagram">
                 <Instagram size={18} />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon-btn fb" title="Facebook">
+              <a href="https://www.facebook.com/share/1BqRrCRYx9/" target="_blank" rel="noopener noreferrer" className="social-icon-btn fb" title="Facebook">
                 <Facebook size={18} />
               </a>
               <button onClick={handleWhatsApp} className="social-icon-btn wa" title="WhatsApp">
@@ -46,7 +46,7 @@ export default function Footer({ gender }) {
             <ul className="contact-list">
               <li>
                 <MapPin size={18} className="contact-icon" />
-                <span>D Block, ADA Colony, Naini, Prayagraj, Uttar Pradesh 211008</span>
+                <span>3 Braker, D Block, ADA Colony, Naini, Prayagraj, Uttar Pradesh 211008</span>
               </li>
               <li>
                 <Phone size={18} className="contact-icon" />
@@ -69,15 +69,8 @@ export default function Footer({ gender }) {
               <li>
                 <Clock size={16} className="contact-icon" />
                 <div className="hours-detail">
-                  <span className="days">Wed - Mon:</span>
+                  <span className="days">Open Daily:</span>
                   <span className="time">7:00 AM - 9:00 PM</span>
-                </div>
-              </li>
-              <li className="closed-day-row">
-                <Clock size={16} className="contact-icon text-red" />
-                <div className="hours-detail text-red">
-                  <span className="days">Tuesday:</span>
-                  <span className="time">Closed (Weekly Holiday)</span>
                 </div>
               </li>
             </ul>

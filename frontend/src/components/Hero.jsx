@@ -1,7 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin, Phone, MessageSquare } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 export default function Hero({ gender }) {
+  const [founderImage, setFounderImage] = useState('/founder.png');
+  
+  useEffect(() => {
+    const fetchFounderImage = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/settings/founder_image`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.value) {
+            setFounderImage(data.value);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching founder image setting:', err);
+      }
+    };
+    fetchFounderImage();
+  }, []);
   
   const handleWhatsApp = () => {
     const phone = '9984527769';
@@ -26,34 +45,44 @@ export default function Hero({ gender }) {
       <div className="hero-overlay"></div>
       
       <div className="hero-content animate-slide-up">
+        <div className="hero-main-layout">
+          <div className="hero-text-side">
+            {/* Bilingual Header */}
+            <h1 className="hero-title">
+              <span className="title-en">NEW LOOK UNISEX SALON</span>
+              <span className="title-hi">न्यू लुक यूनिसेक्स सैलून</span>
+            </h1>
+            
+            <p className="hero-subtitle">
+              {gender === 'men' 
+                ? 'Premium Barbering, Hair Styling & Grooming Rituals' 
+                : 'Luxury Spa, Beauty Makeovers & Premium Aesthetics'}
+            </p>
 
+            <p className="hero-description">
+              Experience world-class hair styling, rejuvenating spa sessions, and premium skincare in a fully furnished, air-conditioned luxury environment. Separate grooming zones for men and women.
+            </p>
 
-        {/* Bilingual Header */}
-        <h1 className="hero-title">
-          <span className="title-en">NEW LOOK UNISEX SALON</span>
-          <span className="title-hi">न्यू लुक यूनिसेक्स सैलून</span>
-        </h1>
-        
-        <p className="hero-subtitle">
-          {gender === 'men' 
-            ? 'Premium Barbering, Hair Styling & Grooming Rituals' 
-            : 'Luxury Spa, Beauty Makeovers & Premium Aesthetics'}
-        </p>
+            {/* Action Buttons */}
+            <div className="hero-actions">
+              <button className="btn-gold" onClick={handleWhatsApp}>
+                <MessageSquare size={18} />
+                <span>Book via WhatsApp</span>
+              </button>
+              
+              <button className="btn-outline" onClick={handleScrollToServices}>
+                <span>View Services</span>
+              </button>
+            </div>
+          </div>
 
-        <p className="hero-description">
-          Experience world-class hair styling, rejuvenating spa sessions, and premium skincare in a fully furnished, air-conditioned luxury environment. Separate grooming zones for men and women.
-        </p>
-
-        {/* Action Buttons */}
-        <div className="hero-actions">
-          <button className="btn-gold" onClick={handleWhatsApp}>
-            <MessageSquare size={18} />
-            <span>Book via WhatsApp</span>
-          </button>
-          
-          <button className="btn-outline" onClick={handleScrollToServices}>
-            <span>View Services</span>
-          </button>
+          <div className="hero-image-side">
+            {/* Founder Circular Portrait */}
+            <div className="founder-circle-container">
+              <img src={founderImage} alt="Saddam Hussain - Founder" className="founder-circle-img" />
+              <div className="founder-circle-glow"></div>
+            </div>
+          </div>
         </div>
 
         {/* Quick Details Bar */}
@@ -69,7 +98,7 @@ export default function Hero({ gender }) {
             <Calendar size={18} className="detail-icon" />
             <div>
               <h4>Timings</h4>
-              <p>7:00 AM - 9:00 PM <span className="closed-tag">(Closed Tue)</span></p>
+              <p>7:00 AM - 9:00 PM <span className="open-daily-tag">(Open Daily)</span></p>
             </div>
           </div>
           <div className="detail-item">
@@ -120,9 +149,31 @@ export default function Hero({ gender }) {
         .hero-content {
           position: relative;
           z-index: 2;
-          max-width: 900px;
+          max-width: 1100px;
+          width: 100%;
           text-align: center;
-          margin-top: 60px;
+          margin-top: 85px;
+        }
+
+        .hero-main-layout {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 4rem;
+          margin-bottom: 2.5rem;
+          width: 100%;
+        }
+
+        .hero-text-side {
+          flex: 1.2;
+          text-align: left;
+        }
+
+        .hero-image-side {
+          flex: 0.8;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
 
         .ratings-badge {
@@ -159,12 +210,12 @@ export default function Hero({ gender }) {
         }
 
         .hero-title {
-          margin-bottom: 1.5rem;
+          margin-bottom: 0.5rem;
         }
 
         .title-en {
           display: block;
-          font-size: 3.8rem;
+          font-size: 3.2rem;
           font-weight: 800;
           letter-spacing: 0.05em;
           line-height: 1.1;
@@ -175,9 +226,9 @@ export default function Hero({ gender }) {
         .title-hi {
           display: block;
           font-family: var(--font-serif);
-          font-size: 2.2rem;
+          font-size: 1.8rem;
           color: var(--accent-color);
-          margin-top: 0.5rem;
+          margin-top: 0.4rem;
           letter-spacing: 0.02em;
           font-weight: 400;
           text-shadow: 0 2px 10px rgba(0,0,0,0.5);
@@ -185,26 +236,26 @@ export default function Hero({ gender }) {
 
         .hero-subtitle {
           font-family: var(--font-serif);
-          font-size: 1.5rem;
+          font-size: 1.25rem;
           color: #ffffff;
           font-style: italic;
-          margin-bottom: 1.5rem;
+          margin-bottom: 0.6rem;
           letter-spacing: 0.05em;
         }
 
         .hero-description {
-          font-size: 1rem;
+          font-size: 0.95rem;
           color: var(--text-secondary);
           max-width: 720px;
-          margin: 0 auto 2.5rem auto;
-          line-height: 1.7;
+          margin: 0 0 1.5rem 0;
+          line-height: 1.6;
         }
 
         .hero-actions {
           display: flex;
           gap: 1.5rem;
-          justify-content: center;
-          margin-bottom: 4rem;
+          justify-content: flex-start;
+          margin-bottom: 1.8rem;
         }
 
         .hero-details-bar {
@@ -246,10 +297,67 @@ export default function Hero({ gender }) {
           color: #ffffff;
         }
 
-        .closed-tag {
+        .open-daily-tag {
           font-size: 0.75rem;
-          color: #f87171;
+          color: #34d399;
           font-weight: 500;
+        }
+
+        /* Founder Circle Portrait & Neon Animation styles */
+        .founder-circle-container {
+          position: relative;
+          width: 220px;
+          height: 220px;
+          border-radius: 50%;
+          padding: 5px;
+          background: linear-gradient(90deg, #c5a880, #ffffff, #8f724d, #c5a880);
+          background-size: 300% 300%;
+          animation: borderGlowRotate 4s linear infinite;
+          margin: 0;
+          box-shadow: 0 0 35px rgba(197, 168, 128, 0.5);
+          z-index: 10;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .founder-circle-container:hover {
+          transform: scale(1.05);
+          box-shadow: 0 0 45px rgba(197, 168, 128, 0.7);
+        }
+
+        .founder-circle-img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 3px solid #0d0d0f;
+          display: block;
+        }
+
+        .founder-circle-glow {
+          position: absolute;
+          top: -5px;
+          left: -5px;
+          right: -5px;
+          bottom: -5px;
+          border-radius: 50%;
+          background: linear-gradient(90deg, #c5a880, #ffffff, #8f724d, #c5a880);
+          background-size: 300% 300%;
+          filter: blur(12px);
+          z-index: -1;
+          opacity: 0.85;
+          animation: borderGlowRotate 4s linear infinite;
+        }
+
+        @keyframes borderGlowRotate {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
         }
 
 
@@ -261,6 +369,25 @@ export default function Hero({ gender }) {
           }
           .hero-content {
             margin-top: 0;
+          }
+          .hero-main-layout {
+            flex-direction: column-reverse;
+            gap: 2rem;
+            margin-bottom: 2rem;
+          }
+          .hero-text-side {
+            text-align: center;
+          }
+          .hero-image-side {
+            width: 100%;
+          }
+          .founder-circle-container {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 1rem auto;
+          }
+          .hero-description {
+            margin: 0 auto 1.2rem auto;
           }
           .title-en {
             font-size: 2.5rem;

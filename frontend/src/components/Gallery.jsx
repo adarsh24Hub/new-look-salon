@@ -195,22 +195,11 @@ export default function Gallery({ gender }) {
           position: relative;
           z-index: 10;
           scroll-snap-type: x mandatory;
-          scrollbar-width: thin;
-          scrollbar-color: var(--accent-color) var(--bg-primary);
+          scrollbar-width: none; /* Hide scrollbar in Firefox */
         }
 
         .gallery-grid::-webkit-scrollbar {
-          height: 6px;
-        }
-
-        .gallery-grid::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.03);
-          border-radius: 3px;
-        }
-
-        .gallery-grid::-webkit-scrollbar-thumb {
-          background: var(--accent-color);
-          border-radius: 3px;
+          display: none; /* Hide scrollbar in Chrome/Safari */
         }
 
         .gallery-item {
