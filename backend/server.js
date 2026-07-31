@@ -37,10 +37,20 @@ app.use('/api/reviews', require('./routes/reviews'));
 app.use('/api/settings', require('./routes/settings'));
 app.use('/api/services', require('./routes/services'));
 
-// Simple Base route for health checks
-app.get('/', (req, res) => {
-  res.send('New Look Unisex Salon API is running...');
-});
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'frontend', 'dist', 'index.html'));
+  });
+} else {
+  // Simple Base route for health checks
+  app.get('/', (req, res) => {
+    res.send('New Look Unisex Salon API is running...');
+  });
+}
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
