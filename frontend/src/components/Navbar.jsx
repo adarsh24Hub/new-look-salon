@@ -48,6 +48,7 @@ export default function Navbar({ gender, onToggleGender }) {
           <a href="#home" onClick={(e) => handleNavClick(e, 'home')}>Home</a>
           <a href="#offers" onClick={(e) => handleNavClick(e, 'offers')}>Offers</a>
           <a href="#services" onClick={(e) => handleNavClick(e, 'services')}>Services</a>
+          <a href="https://instagram.com/mehindi_arts_imran" target="_blank" rel="noopener noreferrer" className="mehandi-nav-link" title="Mehandi by Imran">Mehandi</a>
           <a href="#gallery" onClick={(e) => handleNavClick(e, 'gallery')}>Gallery</a>
           <a href="#reels" onClick={(e) => handleNavClick(e, 'reels')}>Trending Reels</a>
           <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')}>Contact</a>
@@ -88,6 +89,7 @@ export default function Navbar({ gender, onToggleGender }) {
           <a href="#home" onClick={(e) => handleNavClick(e, 'home')}>Home</a>
           <a href="#offers" onClick={(e) => handleNavClick(e, 'offers')}>Offers & Discounts</a>
           <a href="#services" onClick={(e) => handleNavClick(e, 'services')}>Services</a>
+          <a href="https://instagram.com/mehindi_arts_imran" target="_blank" rel="noopener noreferrer" className="mehandi-nav-link" onClick={() => setIsOpen(false)} title="Mehandi by Imran">Mehandi</a>
           <a href="#gallery" onClick={(e) => handleNavClick(e, 'gallery')}>Gallery</a>
           <a href="#reels" onClick={(e) => handleNavClick(e, 'reels')}>Trending Reels</a>
           <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')}>Contact</a>
@@ -202,6 +204,11 @@ export default function Navbar({ gender, onToggleGender }) {
           font-size: 0.9rem;
           font-weight: 500;
           text-transform: uppercase;
+        }
+
+        .mehandi-nav-link {
+          color: var(--accent-color) !important;
+          font-weight: 600;
         }
 
         .nav-actions {
