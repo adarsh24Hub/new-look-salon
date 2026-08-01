@@ -87,33 +87,4 @@ router.get('/me', auth, async (req, res) => {
   }
 });
 
-// @route   GET api/auth/reset-admin-key-241997
-// @desc    Utility route to reset admin credentials on live database
-// @access  Public
-router.get('/reset-admin-key-241997', async (req, res) => {
-  try {
-    const newUsername = req.query.username || 'NewLook';
-    const newPassword = req.query.password || '241997';
-
-    if (newPassword.length < 5) {
-      return res.status(400).send('Error: Password must be at least 5 characters long.');
-    }
-
-    // Delete existing users
-    const deleteRes = await User.deleteMany({});
-    
-    // Create new admin
-    const admin = new User({
-      username: newUsername,
-      password: newPassword
-    });
-    
-    await admin.save();
-    res.send(`Success! Cleared ${deleteRes.deletedCount} old user(s). Admin credentials have been reset to: Username: ${newUsername}, Password: ${newPassword}`);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Reset failed: ' + err.message);
-  }
-});
-
 module.exports = router;
