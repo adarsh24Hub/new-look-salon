@@ -28,6 +28,11 @@ export default function Mehndi() {
     document.body.className = `theme-${gender}`;
   }, [gender]);
 
+  // Scroll to top on page load
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Fetch Mehndi Services and Reels
   useEffect(() => {
     const fetchMehndiData = async () => {
@@ -109,9 +114,12 @@ export default function Mehndi() {
         {/* SECTION 1: Portfolio Services Scroll (Now at the top) */}
         <section className="mehndi-portfolio-section">
           <div className="section-header-centered">
+            <span className="artist-welcome-tag">Imran Mehndi Arts</span>
             <h2>Mehndi Designs & Packages</h2>
             <div className="section-divider"></div>
-            <p>Explore our trending designs and book your appointments in advance for weddings and festivals.</p>
+            <p className="section-intro-text">
+              Welcome to the exclusive portfolio of Imran Mehndi Arts. Explore our premium hand-drawn organic henna packages, ranging from traditional bridal designs to contemporary designer patterns, and secure your slot for weddings, engagements, and festivals.
+            </p>
           </div>
 
           {loading ? (
@@ -410,6 +418,24 @@ export default function Mehndi() {
         }
 
         .section-header-centered p {
+          color: var(--text-secondary);
+          font-size: 0.95rem;
+        }
+
+        .artist-welcome-tag {
+          font-size: 0.85rem;
+          color: var(--accent-color);
+          text-transform: uppercase;
+          letter-spacing: 0.15em;
+          font-weight: 700;
+          display: block;
+          margin-bottom: 0.5rem;
+        }
+
+        .section-intro-text {
+          max-width: 720px;
+          margin: 0 auto;
+          line-height: 1.6;
           color: var(--text-secondary);
           font-size: 0.95rem;
         }
