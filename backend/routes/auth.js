@@ -87,4 +87,25 @@ router.get('/me', auth, async (req, res) => {
   }
 });
 
+const mongoose = require('mongoose');
+
+// @route   GET api/auth/db-info
+// @desc    Get connected database details (diagnostics)
+// @access  Public
+router.get('/db-info', async (req, res) => {
+  try {
+    const dbState = mongoose.connection.readyState;
+    const states = ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'];
+    const dbName = mongoose.connection.name;
+    const dbHost = mongoose.connection.host;
+    res.json({
+      status: states[dbState] || 'Unknown',
+      database: dbName,
+      host: dbHost
+    });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 module.exports = router;
