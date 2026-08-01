@@ -205,11 +205,6 @@ export default function Navbar({ gender, onToggleGender }) {
           text-transform: uppercase;
         }
 
-        .mehndi-nav-link {
-          color: var(--accent-color) !important;
-          font-weight: 600;
-        }
-
         .nav-actions {
           display: flex;
           align-items: center;
