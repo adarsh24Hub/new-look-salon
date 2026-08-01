@@ -42,7 +42,7 @@ const fs = require('fs');
 const frontendDistPath = path.resolve(__dirname, '..', 'frontend', 'dist');
 const hasFrontendDist = fs.existsSync(frontendDistPath);
 
-if (process.env.NODE_ENV === 'production' && hasFrontendDist) {
+if (hasFrontendDist) {
   // Set static folder
   app.use(express.static(frontendDistPath));
 
