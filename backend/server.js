@@ -37,13 +37,17 @@ app.use('/api/reviews', require('./routes/reviews'));
 app.use('/api/settings', require('./routes/settings'));
 app.use('/api/services', require('./routes/services'));
 
-// Serve static assets in production
-if (process.env.NODE_ENV === 'production') {
+// Serve static assets in production if they exist
+const fs = require('fs');
+const frontendDistPath = path.resolve(__dirname, '..', 'frontend', 'dist');
+const hasFrontendDist = fs.existsSync(frontendDistPath);
+
+if (process.env.NODE_ENV === 'production' && hasFrontendDist) {
   // Set static folder
-  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+  app.use(express.static(frontendDistPath));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'frontend', 'dist', 'index.html'));
+    res.sendFile(path.resolve(frontendDistPath, 'index.html'));
   });
 } else {
   // Simple Base route for health checks
