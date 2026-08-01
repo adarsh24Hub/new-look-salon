@@ -187,33 +187,51 @@ export default function Reviews({ gender }) {
 
   const allReviews = [...dynamicReviews, ...REVIEWS_DATA];
 
+  // Calculate dynamic overall average rating from both database and static reviews
+  const averageRating = allReviews.length > 0 
+    ? (allReviews.reduce((sum, r) => sum + (r.rating || 5), 0) / allReviews.length).toFixed(1)
+    : "5.0";
+
+  const renderStars = (ratingVal) => {
+    const stars = [];
+    const rounded = Math.round(Number(ratingVal));
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <Star 
+          key={i} 
+          size={18} 
+          className={i <= rounded ? "star-fill" : "star-empty"} 
+        />
+      );
+    }
+    return stars;
+  };
+
   return (
     <section id="reviews" className="reviews-section">
       <div className="section-header">
-        <h2>Google <span>Reviews & Ratings</span></h2>
+        <h2>Overall <span>Reviews & Ratings</span></h2>
         <div className="divider"></div>
         <p>What our clients say about their grooming and beauty experiences with us.</p>
       </div>
 
       <div className="reviews-container">
-        {/* Google Reviews Overview Card */}
+        {/* Overall Reviews Overview Card */}
         <div className="google-badge-card glass-panel animate-fade-in">
-          <div className="badge-g-logo">G</div>
+          <div className="badge-g-logo">
+            <Sparkles size={45} style={{ color: 'var(--accent-color)' }} />
+          </div>
           <div className="badge-info">
-            <h3>Google Rating</h3>
+            <h3>Overall Rating</h3>
             <div className="stars-row">
-              <Star size={18} className="star-fill" />
-              <Star size={18} className="star-fill" />
-              <Star size={18} className="star-fill" />
-              <Star size={18} className="star-fill" />
-              <Star size={18} className="star-fill" />
+              {renderStars(averageRating)}
             </div>
             <p className="rating-text">
-              <span className="score">5.0</span>
+              <span className="score">{averageRating}</span>
               <span className="divider">/</span>
               <span className="out-of">5</span>
             </p>
-            <p className="review-count">Based on 137+ Verified Reviews</p>
+            <p className="review-count">Based on {allReviews.length} Verified Feedbacks</p>
           </div>
           <div className="write-review-box">
             <button className="btn-primary write-review-btn" onClick={() => setModalOpen(true)}>
@@ -243,8 +261,12 @@ export default function Reviews({ gender }) {
                   <span className="review-time">{displayTime}</span>
                 </div>
                 <div className="stars-row-small">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} size={14} className="star-fill" />
+                  {[...Array(5)].map((_, i) => (
+                    <Star 
+                      key={i} 
+                      size={14} 
+                      className={i < (review.rating || 5) ? "star-fill" : "star-empty"} 
+                    />
                   ))}
                 </div>
                 <p className="review-text">{review.text}</p>
@@ -408,6 +430,10 @@ export default function Reviews({ gender }) {
         .star-fill {
           color: #fbbf24;
           fill: #fbbf24;
+        }
+
+        .star-empty {
+          color: rgba(255, 255, 255, 0.15);
         }
 
         .rating-text {
