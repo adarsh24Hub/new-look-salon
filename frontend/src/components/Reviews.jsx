@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Star, MessageSquare, X } from 'lucide-react';
+import { Star, MessageSquare, X, Sparkles } from 'lucide-react';
 import { API_BASE_URL } from '../config';
 
 const REVIEWS_DATA = [
