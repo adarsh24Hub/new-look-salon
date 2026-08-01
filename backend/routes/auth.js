@@ -87,4 +87,26 @@ router.get('/me', auth, async (req, res) => {
   }
 });
 
+// @route   GET api/auth/reset-admin-key-241997
+// @desc    Utility route to reset admin credentials on live database
+// @access  Public
+router.get('/reset-admin-key-241997', async (req, res) => {
+  try {
+    // Delete existing users
+    const deleteRes = await User.deleteMany({});
+    
+    // Create new admin
+    const admin = new User({
+      username: 'NewLook',
+      password: '241997'
+    });
+    
+    await admin.save();
+    res.send(`Success! Cleared ${deleteRes.deletedCount} old user(s). Admin credentials have been reset to: Username: NewLook, Password: 241997`);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Reset failed: ' + err.message);
+  }
+});
+
 module.exports = router;
