@@ -54,6 +54,7 @@ export default function AdminDashboard() {
   const [reelTitle, setReelTitle] = useState('');
   const [reelUrl, setReelUrl] = useState('');
   const [reelGender, setReelGender] = useState('both');
+  const [reelCategory, setReelCategory] = useState('salon');
 
   const navigate = useNavigate();
   const token = localStorage.getItem('admin_token');
@@ -405,7 +406,7 @@ export default function AdminDashboard() {
 
   const fetchReels = async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/api/reels`);
+      const res = await fetch(`${API_BASE_URL}/api/reels?all=true`);
       if (res.ok) {
         const data = await res.json();
         setReels(data);
@@ -485,7 +486,8 @@ export default function AdminDashboard() {
         body: JSON.stringify({
           title: reelTitle,
           url: reelUrl,
-          gender: reelGender
+          gender: reelGender,
+          category: reelCategory
         })
       });
 
@@ -499,6 +501,7 @@ export default function AdminDashboard() {
       setReelTitle('');
       setReelUrl('');
       setReelGender('both');
+      setReelCategory('salon');
       fetchReels();
     } catch (err) {
       setError(err.message);
@@ -860,6 +863,15 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div className="form-group">
+                      <label>Reel Category</label>
+                      <select value={reelCategory} onChange={(e) => setReelCategory(e.target.value)}>
+                        <option value="salon">General Salon Reel</option>
+                        <option value="mehndi">Imran Mehndi Reel</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="form-row-two">
+                    <div className="form-group">
                       <label>Target Audience</label>
                       <select value={reelGender} onChange={(e) => setReelGender(e.target.value)}>
                         <option value="both">Both (General)</option>
@@ -867,16 +879,16 @@ export default function AdminDashboard() {
                         <option value="women">Ladies Mode Only</option>
                       </select>
                     </div>
-                  </div>
-                  <div className="form-group">
-                    <label>Reel / Video URL (Instagram or Facebook)</label>
-                    <input 
-                      type="url" 
-                      placeholder="e.g. https://www.instagram.com/reel/C8_k-b0J5g2/"
-                      value={reelUrl}
-                      onChange={(e) => setReelUrl(e.target.value)}
-                      required
-                    />
+                    <div className="form-group">
+                      <label>Reel / Video URL (Instagram or Facebook)</label>
+                      <input 
+                        type="url" 
+                        placeholder="e.g. https://www.instagram.com/reel/C8_k-b0J5g2/"
+                        value={reelUrl}
+                        onChange={(e) => setReelUrl(e.target.value)}
+                        required
+                      />
+                    </div>
                   </div>
                   <button type="submit" className="btn-gold" disabled={loading}>
                     <Plus size={16} />
@@ -898,6 +910,9 @@ export default function AdminDashboard() {
                       <p className="url-text">{reel.url}</p>
                       <div className="badge-row">
                         <span className="badge-cat">{reel.platform}</span>
+                        <span className="badge-cat" style={{ background: reel.category === 'mehndi' ? '#db2777' : '#1e1b4b' }}>
+                          {reel.category === 'mehndi' ? 'Mehndi' : 'Salon'}
+                        </span>
                         <span className={`badge-gen ${reel.gender}`}>{reel.gender}</span>
                       </div>
                     </div>
@@ -1414,6 +1429,7 @@ export default function AdminDashboard() {
                         <option value="facial">Facial & De-Tan</option>
                         <option value="spa">Spa & Relaxation</option>
                         <option value="makeup">Makeup & Bridal</option>
+                        <option value="mehndi">Mehndi Arts</option>
                       </select>
                     </div>
                     <div className="form-group">

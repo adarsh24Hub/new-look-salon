@@ -23,6 +23,11 @@ const ReelSchema = new mongoose.Schema({
     type: String,
     enum: ['men', 'women', 'both'],
     default: 'both'
+  },
+  category: {
+    type: String,
+    enum: ['salon', 'mehndi'],
+    default: 'salon'
   }
 }, { timestamps: true });
 

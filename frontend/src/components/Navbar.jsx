@@ -48,7 +48,7 @@ export default function Navbar({ gender, onToggleGender }) {
           <a href="#home" onClick={(e) => handleNavClick(e, 'home')}>Home</a>
           <a href="#offers" onClick={(e) => handleNavClick(e, 'offers')}>Offers</a>
           <a href="#services" onClick={(e) => handleNavClick(e, 'services')}>Services</a>
-          <a href="https://instagram.com/mehindi_arts_imran" target="_blank" rel="noopener noreferrer" className="mehandi-nav-link" title="Mehandi by Imran">Mehandi</a>
+          <Link to="/mehndi" className="mehndi-nav-link" title="Mehndi by Imran">Mehndi</Link>
           <a href="#gallery" onClick={(e) => handleNavClick(e, 'gallery')}>Gallery</a>
           <a href="#reels" onClick={(e) => handleNavClick(e, 'reels')}>Trending Reels</a>
           <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')}>Contact</a>
@@ -89,7 +89,7 @@ export default function Navbar({ gender, onToggleGender }) {
           <a href="#home" onClick={(e) => handleNavClick(e, 'home')}>Home</a>
           <a href="#offers" onClick={(e) => handleNavClick(e, 'offers')}>Offers & Discounts</a>
           <a href="#services" onClick={(e) => handleNavClick(e, 'services')}>Services</a>
-          <a href="https://instagram.com/mehindi_arts_imran" target="_blank" rel="noopener noreferrer" className="mehandi-nav-link" onClick={() => setIsOpen(false)} title="Mehandi by Imran">Mehandi</a>
+          <Link to="/mehndi" className="mehndi-nav-link" onClick={() => setIsOpen(false)} title="Mehndi by Imran">Mehndi</Link>
           <a href="#gallery" onClick={(e) => handleNavClick(e, 'gallery')}>Gallery</a>
           <a href="#reels" onClick={(e) => handleNavClick(e, 'reels')}>Trending Reels</a>
           <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')}>Contact</a>
@@ -168,6 +168,7 @@ export default function Navbar({ gender, onToggleGender }) {
 
         .desktop-menu {
           display: flex;
+          align-items: center;
           gap: 2.2rem;
           font-weight: 500;
           font-size: 0.9rem;
@@ -206,7 +207,7 @@ export default function Navbar({ gender, onToggleGender }) {
           text-transform: uppercase;
         }
 
-        .mehandi-nav-link {
+        .mehndi-nav-link {
           color: var(--accent-color) !important;
           font-weight: 600;
         }
@@ -273,6 +274,16 @@ export default function Navbar({ gender, onToggleGender }) {
           letter-spacing: 0.05em;
           border-bottom: 1px solid rgba(255,255,255,0.05);
           padding-bottom: 0.5rem;
+        }
+
+        @media (max-width: 1300px) {
+          .desktop-menu {
+            gap: 1.2rem;
+            font-size: 0.82rem;
+          }
+          .nav-actions {
+            gap: 0.8rem;
+          }
         }
 
         @media (max-width: 1024px) {

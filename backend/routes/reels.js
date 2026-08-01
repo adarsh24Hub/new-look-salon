@@ -53,10 +53,16 @@ async function getEmbedUrl(url) {
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const { gender } = req.query;
+    const { gender, category, all } = req.query;
     const query = {};
     if (gender) {
       query.gender = { $in: [gender, 'both'] };
+    }
+    if (category) {
+      query.category = category;
+    } else if (all !== 'true') {
+      // Default to salon reels for public homepage
+      query.category = 'salon';
     }
     const reels = await Reel.find(query).sort({ createdAt: -1 });
     res.json(reels);
@@ -71,7 +77,7 @@ router.get('/', async (req, res) => {
 // @access  Private (Admin Only)
 router.post('/', auth, async (req, res) => {
   try {
-    const { title, url, gender } = req.body;
+    const { title, url, gender, category } = req.body;
     if (!url) {
       return res.status(400).json({ msg: 'Please provide a video/reel URL' });
     }
@@ -83,7 +89,8 @@ router.post('/', auth, async (req, res) => {
       url,
       embedUrl,
       platform,
-      gender: gender || 'both'
+      gender: gender || 'both',
+      category: category || 'salon'
     });
 
     const reel = await newReel.save();
