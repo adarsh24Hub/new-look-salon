@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, MessageSquare, Instagram, Gift, Calendar, Sparkles, AlertCircle } from 'lucide-react';
+import { Phone, MessageSquare, Instagram, Sparkles } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { API_BASE_URL, optimizeCloudinaryUrl } from '../config';
@@ -106,42 +106,7 @@ export default function Mehndi() {
       {/* Main Container */}
       <main className="mehndi-main-container">
         
-        {/* Page Hero Header */}
-        <section className="mehndi-hero glass-panel">
-          <div className="mehndi-hero-content">
-            <div className="badge-highlight">
-              <Sparkles size={16} />
-              <span>Premium Artist</span>
-            </div>
-            <h1>Imran Mehndi Arts</h1>
-            <p className="artist-description">
-              Professional, custom-tailored, and highly detailed Mehndi designs for every special occasion. From stunning traditional Bridal artwork to minimalist modern designer trails, Imran creates breathtaking hand-drawn pieces using 100% natural, deep-staining organic henna.
-            </p>
-
-            {/* Contact Actions Area */}
-            <div className="artist-contact-box">
-              <div className="insta-meta">
-                <Instagram size={22} className="text-pink-insta" />
-                <a href={instaUrl} target="_blank" rel="noopener noreferrer" className="insta-handle">
-                  @{instaUsername}
-                </a>
-              </div>
-              
-              <div className="contact-actions-row">
-                <button className="btn-whatsapp" onClick={handleWhatsApp}>
-                  <MessageSquare size={18} />
-                  <span>WhatsApp Imran</span>
-                </button>
-                <button className="btn-call" onClick={handleCall}>
-                  <Phone size={18} />
-                  <span>Call: +91 {phone}</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Portfolio Services Grid */}
+        {/* SECTION 1: Portfolio Services Scroll (Now at the top) */}
         <section className="mehndi-portfolio-section">
           <div className="section-header-centered">
             <h2>Mehndi Designs & Packages</h2>
@@ -152,10 +117,14 @@ export default function Mehndi() {
           {loading ? (
             <div className="loading-spinner">Loading Mehndi designs...</div>
           ) : (
-            <div className="mehndi-cards-grid">
+            <div className="mehndi-scroll-track">
               {displayedServices.map((service) => (
                 <div key={service._id} className="mehndi-card glass-panel animate-slide-up">
                   <div className="mehndi-card-banner">
+                    {/* Golden sparkles pulse placeholder behind image */}
+                    <div className="banner-placeholder">
+                      <Sparkles size={40} className="placeholder-icon" />
+                    </div>
                     <img 
                       src={optimizeCloudinaryUrl(service.imageUrl, 500)} 
                       alt={service.name} 
@@ -179,7 +148,7 @@ export default function Mehndi() {
           )}
         </section>
 
-        {/* Reels Section */}
+        {/* SECTION 2: Reels Horizontal Scroll (Now in the middle) */}
         <section className="mehndi-reels-section">
           <div className="section-header-centered">
             <h2>Watch Imran's Live Artistry</h2>
@@ -190,7 +159,7 @@ export default function Mehndi() {
           {loading ? (
             <div className="loading-spinner">Loading Mehndi video reels...</div>
           ) : reels.length > 0 ? (
-            <div className="reels-display-grid">
+            <div className="reels-scroll-track">
               {reels.map((reel) => (
                 <div key={reel._id} className="reel-card glass-panel">
                   <div className="reel-video-wrapper">
@@ -226,6 +195,41 @@ export default function Mehndi() {
           )}
         </section>
 
+        {/* SECTION 3: Page Hero / Imran Details Card (Now at the bottom) */}
+        <section className="mehndi-hero glass-panel">
+          <div className="mehndi-hero-content">
+            <div className="badge-highlight">
+              <Sparkles size={16} />
+              <span>Premium Artist</span>
+            </div>
+            <h1>Imran Mehndi Arts</h1>
+            <p className="artist-description">
+              Professional, custom-tailored, and highly detailed Mehndi designs for every special occasion. From stunning traditional Bridal artwork to minimalist modern designer trails, Imran creates breathtaking hand-drawn pieces using 100% natural, deep-staining organic henna.
+            </p>
+
+            {/* Contact Actions Area */}
+            <div className="artist-contact-box">
+              <div className="insta-meta">
+                <Instagram size={22} className="text-pink-insta" />
+                <a href={instaUrl} target="_blank" rel="noopener noreferrer" className="insta-handle">
+                  @{instaUsername}
+                </a>
+              </div>
+              
+              <div className="contact-actions-row">
+                <button className="btn-whatsapp" onClick={handleWhatsApp}>
+                  <MessageSquare size={18} />
+                  <span>WhatsApp Imran</span>
+                </button>
+                <button className="btn-call" onClick={handleCall}>
+                  <Phone size={18} />
+                  <span>Call: +91 {phone}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
 
       <Footer gender={gender} />
@@ -239,12 +243,12 @@ export default function Mehndi() {
         }
 
         .mehndi-main-container {
-          max-width: 1200px;
+          max-width: 1240px;
           margin: 0 auto;
           padding: 120px 24px 60px 24px;
           display: flex;
           flex-direction: column;
-          gap: 5rem;
+          gap: 4.5rem;
         }
 
         /* Hero styling */
@@ -256,6 +260,7 @@ export default function Mehndi() {
           text-align: center;
           position: relative;
           overflow: hidden;
+          margin-top: 1rem;
         }
 
         .mehndi-hero::before {
@@ -387,7 +392,7 @@ export default function Mehndi() {
         /* Portfolio styling */
         .section-header-centered {
           text-align: center;
-          margin-bottom: 3.5rem;
+          margin-bottom: 2.2rem;
         }
 
         .section-header-centered h2 {
@@ -409,15 +414,24 @@ export default function Mehndi() {
           font-size: 0.95rem;
         }
 
-        /* Grid configuration */
-        .mehndi-cards-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(320px, 360px));
-          justify-content: center;
-          gap: 2.5rem;
+        /* Designs Scroll Track (Horizontal Scroll) */
+        .mehndi-scroll-track {
+          display: flex;
+          overflow-x: auto;
+          gap: 2.2rem;
+          padding: 1.5rem 0.5rem;
+          scrollbar-width: none; /* Hide scrollbar Firefox */
+          scroll-snap-type: x mandatory;
+          width: 100%;
+        }
+
+        .mehndi-scroll-track::-webkit-scrollbar {
+          display: none; /* Hide scrollbar Chrome/Safari */
         }
 
         .mehndi-card {
+          flex: 0 0 350px;
+          scroll-snap-align: start;
           display: flex;
           flex-direction: column;
           border-radius: 16px;
@@ -425,7 +439,6 @@ export default function Mehndi() {
           background: rgba(18, 14, 11, 0.6);
           border: 1px solid rgba(197, 168, 128, 0.12);
           transition: var(--transition-smooth);
-          height: 100%;
         }
 
         .mehndi-card:hover {
@@ -438,10 +451,34 @@ export default function Mehndi() {
           position: relative;
           height: 260px;
           overflow: hidden;
-          background: #000000;
+          background: linear-gradient(135deg, #1b1410 0%, #0d0a08 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .banner-placeholder {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: rgba(197, 168, 128, 0.15);
+          z-index: 1;
+        }
+
+        .placeholder-icon {
+          animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+          0% { transform: scale(1); opacity: 0.4; }
+          50% { transform: scale(1.1); opacity: 0.9; }
+          100% { transform: scale(1); opacity: 0.4; }
         }
 
         .mehndi-card-banner img {
+          position: relative;
+          z-index: 2;
           width: 100%;
           height: 100%;
           object-fit: cover;
@@ -464,6 +501,7 @@ export default function Mehndi() {
           border-radius: 30px;
           box-shadow: 0 4px 10px rgba(0,0,0,0.5);
           letter-spacing: 0.02em;
+          z-index: 3;
         }
 
         .mehndi-card-body {
@@ -485,7 +523,8 @@ export default function Mehndi() {
           font-size: 0.9rem;
           color: var(--text-secondary);
           line-height: 1.5;
-          flex-grow: 1;
+          min-height: 4.5 lines;
+          margin-bottom: 0.5rem;
         }
 
         .card-booking-btn {
@@ -495,19 +534,26 @@ export default function Mehndi() {
           gap: 8px;
           width: 100%;
           padding: 0.75rem;
-          margin-top: 8px;
+          margin-top: auto;
           border-radius: 6px;
         }
 
-        /* Reels section styling */
-        .reels-display-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 330px));
-          justify-content: center;
+        /* Reels Scroll Track (Horizontal Scroll) */
+        .reels-scroll-track {
+          display: flex;
+          overflow-x: auto;
           gap: 2.2rem;
+          padding: 1.5rem 0.5rem;
+          scrollbar-width: none;
+          width: 100%;
+        }
+
+        .reels-scroll-track::-webkit-scrollbar {
+          display: none;
         }
 
         .reel-card {
+          flex: 0 0 320px;
           border-radius: 12px;
           overflow: hidden;
           background: rgba(18, 18, 22, 0.7);
@@ -619,7 +665,7 @@ export default function Mehndi() {
             gap: 3.5rem;
           }
           .mehndi-hero {
-            padding: 2rem 1.5rem;
+            padding: 2.2rem 1.5rem;
           }
           .mehndi-hero h1 {
             font-size: 2.2rem;
@@ -635,6 +681,12 @@ export default function Mehndi() {
           .btn-whatsapp, .btn-call {
             width: 100%;
             justify-content: center;
+          }
+          .mehndi-card {
+            flex: 0 0 290px; /* Slimmer cards on mobile */
+          }
+          .reel-card {
+            flex: 0 0 260px; /* Slimmer reels on mobile */
           }
         }
       `}} />

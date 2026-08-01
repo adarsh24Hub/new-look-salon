@@ -50,7 +50,6 @@ export default function Navbar({ gender, onToggleGender }) {
           <a href="#services" onClick={(e) => handleNavClick(e, 'services')}>Services</a>
           <Link to="/mehndi" className="mehndi-nav-link" title="Mehndi by Imran">Mehndi</Link>
           <a href="#gallery" onClick={(e) => handleNavClick(e, 'gallery')}>Gallery</a>
-          <a href="#reels" onClick={(e) => handleNavClick(e, 'reels')}>Trending Reels</a>
           <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')}>Contact</a>
         </div>
 
@@ -91,7 +90,6 @@ export default function Navbar({ gender, onToggleGender }) {
           <a href="#services" onClick={(e) => handleNavClick(e, 'services')}>Services</a>
           <Link to="/mehndi" className="mehndi-nav-link" onClick={() => setIsOpen(false)} title="Mehndi by Imran">Mehndi</Link>
           <a href="#gallery" onClick={(e) => handleNavClick(e, 'gallery')}>Gallery</a>
-          <a href="#reels" onClick={(e) => handleNavClick(e, 'reels')}>Trending Reels</a>
           <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')}>Contact</a>
 
           <div className="drawer-actions">

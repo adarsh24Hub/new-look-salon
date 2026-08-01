@@ -306,8 +306,8 @@ export default function Hero({ gender }) {
         /* Founder Circle Portrait & Neon Animation styles */
         .founder-circle-container {
           position: relative;
-          width: 220px;
-          height: 220px;
+          width: 290px;
+          height: 290px;
           border-radius: 50%;
           padding: 5px;
           background: linear-gradient(90deg, #c5a880, #ffffff, #8f724d, #c5a880);
