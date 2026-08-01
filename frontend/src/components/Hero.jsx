@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, MapPin, Phone, MessageSquare } from 'lucide-react';
-import { API_BASE_URL } from '../config';
+import { Calendar, MapPin, Phone, MessageSquare, User } from 'lucide-react';
+import { API_BASE_URL, optimizeCloudinaryUrl } from '../config';
 
 export default function Hero({ gender }) {
-  const [founderImage, setFounderImage] = useState('/founder.png');
+  const [founderImage, setFounderImage] = useState(null);
   
   useEffect(() => {
     const fetchFounderImage = async () => {
@@ -79,7 +79,13 @@ export default function Hero({ gender }) {
           <div className="hero-image-side">
             {/* Founder Circular Portrait */}
             <div className="founder-circle-container">
-              <img src={founderImage} alt="Saddam Hussain - Founder" className="founder-circle-img" />
+              {founderImage ? (
+                <img src={optimizeCloudinaryUrl(founderImage, 400)} alt="Salon Founder" className="founder-circle-img" />
+              ) : (
+                <div className="founder-circle-shimmer">
+                  <User size={60} className="shimmer-icon" />
+                </div>
+              )}
               <div className="founder-circle-glow"></div>
             </div>
           </div>
@@ -331,6 +337,35 @@ export default function Hero({ gender }) {
           object-fit: cover;
           border: 3px solid #0d0d0f;
           display: block;
+        }
+
+        .founder-circle-shimmer {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          border: 3px solid #0d0d0f;
+          background: linear-gradient(90deg, #121214 25%, #1a1a1f 50%, #121214 75%);
+          background-size: 200% 100%;
+          animation: loadingShimmer 1.5s infinite;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: rgba(197, 168, 128, 0.25);
+        }
+
+        @keyframes loadingShimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+
+        .shimmer-icon {
+          animation: pulseIcon 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulseIcon {
+          0% { opacity: 0.3; transform: scale(0.95); }
+          50% { opacity: 0.6; transform: scale(1.05); }
+          100% { opacity: 0.3; transform: scale(0.95); }
         }
 
         .founder-circle-glow {
