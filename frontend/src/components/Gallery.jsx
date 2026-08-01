@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Camera, Image as ImageIcon, ChevronLeft, ChevronRight } from 'lucide-react';
-import { BACKEND_URL, API_BASE_URL } from '../config';
+import { BACKEND_URL, API_BASE_URL, optimizeCloudinaryUrl } from '../config';
 
 const FALLBACK_GALLERY = [
   { _id: 'f1', imageUrl: 'https://images.unsplash.com/photo-1593702295094-aec22597af65?q=80&w=600&auto=format&fit=crop', caption: 'Classic Gentlemen Grooming', category: 'hair', gender: 'men' },
@@ -121,7 +121,7 @@ export default function Gallery({ gender }) {
               {filteredPhotos.map((photo) => (
                 <div key={photo._id} className="gallery-item glass-panel">
                   <div className="img-container">
-                    <img src={photo.imageUrl.startsWith('/uploads') ? `${BACKEND_URL}${photo.imageUrl}` : photo.imageUrl} alt={photo.caption || 'Salon Style'} />
+                    <img src={photo.imageUrl.startsWith('/uploads') ? `${BACKEND_URL}${photo.imageUrl}` : optimizeCloudinaryUrl(photo.imageUrl, 500)} alt={photo.caption || 'Salon Style'} />
                     <div className="gallery-item-overlay">
                       <div className="overlay-content">
                         <span className="photo-category">{photo.category.toUpperCase()}</span>

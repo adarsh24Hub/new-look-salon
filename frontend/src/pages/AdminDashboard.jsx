@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, Image as ImageIcon, Video, Plus, Trash2, ArrowLeft, Check, AlertCircle, Gift, Edit2, Sparkles, MessageSquare, Star, Settings, Scissors } from 'lucide-react';
-import { BACKEND_URL, API_BASE_URL } from '../config';
+import { BACKEND_URL, API_BASE_URL, optimizeCloudinaryUrl } from '../config';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('gallery');
@@ -820,7 +820,7 @@ export default function AdminDashboard() {
                 {photos.map((item) => (
                   <div key={item._id} className="admin-grid-item glass-panel">
                     <div className="item-thumbnail">
-                      <img src={item.imageUrl.startsWith('/uploads') ? `${BACKEND_URL}${item.imageUrl}` : item.imageUrl} alt={item.caption} />
+                      <img src={item.imageUrl.startsWith('/uploads') ? `${BACKEND_URL}${item.imageUrl}` : optimizeCloudinaryUrl(item.imageUrl, 200)} alt={item.caption} />
                     </div>
                     <div className="item-info">
                       <h4>{item.caption || 'No Caption'}</h4>
@@ -1023,7 +1023,7 @@ export default function AdminDashboard() {
                   <div key={item._id} className="admin-grid-item glass-panel" style={{ border: item.isActive ? '1px solid rgba(197, 168, 128, 0.3)' : '1px solid rgba(239, 68, 68, 0.2)' }}>
                     <div className="item-thumbnail" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0d' }}>
                       {item.imageUrl ? (
-                        <img src={item.imageUrl} alt={item.title} />
+                        <img src={optimizeCloudinaryUrl(item.imageUrl, 200)} alt={item.title} />
                       ) : (
                         <div style={{ padding: '10px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '5px' }}>
                           <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--gold-primary)' }}>{item.discountValue || 'OFFER'}</span>
@@ -1187,7 +1187,7 @@ export default function AdminDashboard() {
                 {slides.map((item) => (
                   <div key={item._id} className="admin-grid-item glass-panel" style={{ border: item.isActive ? '1px solid rgba(197, 168, 128, 0.3)' : '1px solid rgba(239, 68, 68, 0.2)' }}>
                     <div className="item-thumbnail" style={{ position: 'relative' }}>
-                      <img src={item.imageUrl} alt={item.title} />
+                      <img src={optimizeCloudinaryUrl(item.imageUrl, 200)} alt={item.title} />
                       <div style={{ position: 'absolute', top: '10px', right: '10px', background: item.isActive ? '#10b981' : '#ef4444', color: '#fff', fontSize: '0.65rem', fontWeight: '700', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase' }}>
                         {item.isActive ? 'Active' : 'Hidden'}
                       </div>
@@ -1343,7 +1343,7 @@ export default function AdminDashboard() {
                       <div style={{ marginBottom: '1rem' }}>
                         <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>Current Image Preview:</p>
                         <img 
-                          src={currentFounderImg} 
+                          src={optimizeCloudinaryUrl(currentFounderImg, 200)} 
                           alt="Founder Saddam Hussain" 
                           style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--accent-color)' }} 
                         />
@@ -1491,7 +1491,7 @@ export default function AdminDashboard() {
                     {adminServices.map((item) => (
                       <div key={item._id} className="admin-list-item glass-panel" style={{ display: 'flex', flexDirection: 'column', height: '100%', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '8px', overflow: 'hidden' }}>
                         <img 
-                          src={item.imageUrl} 
+                          src={optimizeCloudinaryUrl(item.imageUrl, 200)} 
                           alt={item.name} 
                           style={{ width: '100%', height: '140px', objectFit: 'cover' }} 
                         />

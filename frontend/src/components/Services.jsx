@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Scissors, Sparkles, ShieldCheck, HeartHandshake, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { API_BASE_URL } from '../config';
+import { API_BASE_URL, optimizeCloudinaryUrl } from '../config';
 
 export default function Services({ gender }) {
   const [activeTab, setActiveTab] = useState(gender);
@@ -10,12 +10,8 @@ export default function Services({ gender }) {
   const [loading, setLoading] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
-  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
-
   const searchContainerRef = useRef(null);
   const scrollTrackRef = useRef(null);
-  const isHoveredRef = useRef(false);
-  const autoScrollTimeoutRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -124,11 +120,6 @@ export default function Services({ gender }) {
 
   useEffect(() => {
     fetchServices();
-    return () => {
-      if (autoScrollTimeoutRef.current) {
-        clearTimeout(autoScrollTimeoutRef.current);
-      }
-    };
   }, []);
 
   useEffect(() => {
@@ -137,59 +128,18 @@ export default function Services({ gender }) {
     setSearchQuery('');
   }, [gender]);
 
-  useEffect(() => {
-    let intervalId;
-    if (isAutoScrolling && !loading && filteredServices.length > 0) {
-      intervalId = setInterval(() => {
-        const el = scrollTrackRef.current;
-        if (el) {
-          if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 1) {
-            el.scrollLeft = 0;
-          } else {
-            el.scrollLeft += 1;
-          }
-        }
-      }, 30);
-    }
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, [isAutoScrolling, loading, filteredServices]);
-
   const scrollPrev = () => {
-    if (autoScrollTimeoutRef.current) {
-      clearTimeout(autoScrollTimeoutRef.current);
-    }
-    setIsAutoScrolling(false);
-
     const el = scrollTrackRef.current;
     if (el) {
       el.scrollBy({ left: -362, behavior: 'smooth' });
     }
-
-    autoScrollTimeoutRef.current = setTimeout(() => {
-      if (!isHoveredRef.current) {
-        setIsAutoScrolling(true);
-      }
-    }, 3000);
   };
 
   const scrollNext = () => {
-    if (autoScrollTimeoutRef.current) {
-      clearTimeout(autoScrollTimeoutRef.current);
-    }
-    setIsAutoScrolling(false);
-
     const el = scrollTrackRef.current;
     if (el) {
       el.scrollBy({ left: 362, behavior: 'smooth' });
     }
-
-    autoScrollTimeoutRef.current = setTimeout(() => {
-      if (!isHoveredRef.current) {
-        setIsAutoScrolling(true);
-      }
-    }, 3000);
   };
 
   const handleBookService = (serviceName) => {
@@ -325,22 +275,11 @@ export default function Services({ gender }) {
           <div 
             className="services-scroll-track" 
             ref={scrollTrackRef}
-            onMouseEnter={() => {
-              isHoveredRef.current = true;
-              setIsAutoScrolling(false);
-              if (autoScrollTimeoutRef.current) {
-                clearTimeout(autoScrollTimeoutRef.current);
-              }
-            }}
-            onMouseLeave={() => {
-              isHoveredRef.current = false;
-              setIsAutoScrolling(true);
-            }}
           >
             {filteredServices.map((service, index) => (
               <div key={index} className="service-card glass-panel">
                 <div className="service-image-box">
-                  <img src={service.imageUrl} alt={service.name} className="service-card-img" />
+                  <img src={optimizeCloudinaryUrl(service.imageUrl, 500)} alt={service.name} className="service-card-img" />
                   <div className="service-image-overlay"></div>
                 </div>
                 
@@ -467,7 +406,7 @@ export default function Services({ gender }) {
         .search-box-wrapper {
           width: 100%;
           max-width: 500px;
-          margin: 0 auto;
+          margin: 0;
           position: relative;
           z-index: 50; /* Stay on top of other filter chips */
         }
@@ -621,7 +560,7 @@ export default function Services({ gender }) {
 
         .category-filters-wrapper {
           display: flex;
-          justify-content: center;
+          justify-content: flex-start;
           align-items: center;
           flex-wrap: wrap;
           gap: 0.8rem;
@@ -668,6 +607,7 @@ export default function Services({ gender }) {
           width: 100%;
           padding: 1.5rem 0.5rem;
           scrollbar-width: none; /* Hide scrollbar in Firefox */
+          scroll-snap-type: x mandatory;
         }
 
         .services-scroll-track::-webkit-scrollbar {
@@ -716,6 +656,7 @@ export default function Services({ gender }) {
           flex-direction: column;
           border-color: rgba(255, 255, 255, 0.05);
           transition: var(--transition-smooth);
+          scroll-snap-align: start;
         }
 
         .service-card:hover {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Play, Pause, ChevronLeft, ChevronRight, Award, User, Sparkles, Percent, Calendar } from 'lucide-react';
-import { API_BASE_URL } from '../config';
+import { API_BASE_URL, optimizeCloudinaryUrl } from '../config';
 
 export default function OwnerSlider({ gender }) {
   const [slides, setSlides] = useState([]);
@@ -138,7 +138,7 @@ export default function OwnerSlider({ gender }) {
             <div className="slide-image-container">
               <div className="image-frame">
                 <img 
-                  src={activeSlide.imageUrl} 
+                  src={optimizeCloudinaryUrl(activeSlide.imageUrl, 800)} 
                   alt={activeSlide.title} 
                   className="slide-img"
                 />

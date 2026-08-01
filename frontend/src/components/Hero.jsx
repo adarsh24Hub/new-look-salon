@@ -91,7 +91,7 @@ export default function Hero({ gender }) {
             <MapPin size={18} className="detail-icon" />
             <div>
               <h4>Location</h4>
-              <p>Naini, Prayagraj</p>
+              <p>3 Braker, D Block, ADA Colony, Naini, Prayagraj, Uttar Pradesh 211008</p>
             </div>
           </div>
           <div className="detail-item">

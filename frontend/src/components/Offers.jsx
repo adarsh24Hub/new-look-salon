@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Gift, Copy, Check, MessageSquare, X, Calendar, Sparkles, AlertCircle, Tag } from 'lucide-react';
-import { API_BASE_URL } from '../config';
+import { API_BASE_URL, optimizeCloudinaryUrl } from '../config';
 
 export default function Offers({ gender }) {
   const [offers, setOffers] = useState([]);
@@ -136,7 +136,7 @@ export default function Offers({ gender }) {
               >
                 {offer.imageUrl ? (
                   <div className="offer-card-banner">
-                    <img src={offer.imageUrl} alt={offer.title} />
+                    <img src={optimizeCloudinaryUrl(offer.imageUrl, 600)} alt={offer.title} />
                     {offer.discountValue && (
                       <div className="offer-badge-value">
                         {offer.discountValue}
@@ -257,7 +257,7 @@ export default function Offers({ gender }) {
 
                   {featuredOffer.imageUrl ? (
                     <div className="opened-banner-container">
-                      <img src={featuredOffer.imageUrl} alt={featuredOffer.title} className="opened-banner-img" />
+                      <img src={optimizeCloudinaryUrl(featuredOffer.imageUrl, 800)} alt={featuredOffer.title} className="opened-banner-img" />
                     </div>
                   ) : (
                     <div className="opened-ticket-container">
