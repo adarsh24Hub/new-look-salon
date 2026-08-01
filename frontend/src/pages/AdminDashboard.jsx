@@ -199,6 +199,7 @@ export default function AdminDashboard() {
     setServiceCategory(service.category);
     setServiceGender(service.gender);
     setServiceFile(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleDeleteService = async (id) => {
