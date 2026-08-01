@@ -76,6 +76,11 @@ export default function AdminDashboard() {
     fetchSettings();
   }, [token]);
 
+  // Security Guard: Prevent rendering anything if token is missing
+  if (!token) {
+    return null;
+  }
+
   const fetchSettings = async () => {
     try {
       const res = await fetch(`${API_BASE_URL}/api/settings/founder_image`);
