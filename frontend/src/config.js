@@ -10,3 +10,12 @@ export const optimizeCloudinaryUrl = (url, width = 600) => {
   return url;
 };
 
+export const formatPrice = (price) => {
+  if (!price) return '';
+  const str = String(price).trim();
+  if (str.includes('₹') || str.toLowerCase().includes('rs') || str.toLowerCase().includes('rupee')) {
+    return str;
+  }
+  return `₹${str}`;
+};
+

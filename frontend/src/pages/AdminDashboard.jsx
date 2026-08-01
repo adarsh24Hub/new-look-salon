@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, Image as ImageIcon, Video, Plus, Trash2, ArrowLeft, Check, AlertCircle, Gift, Edit2, Sparkles, MessageSquare, Star, Settings, Scissors } from 'lucide-react';
-import { BACKEND_URL, API_BASE_URL, optimizeCloudinaryUrl } from '../config';
+import { BACKEND_URL, API_BASE_URL, optimizeCloudinaryUrl, formatPrice } from '../config';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('gallery');
@@ -1414,10 +1414,10 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div className="form-group">
-                      <label>Service Price *</label>
+                      <label>Service Price (₹) *</label>
                       <input 
                         type="text" 
-                        placeholder="e.g. ₹60 or ₹500+"
+                        placeholder="e.g. 60 or 500+"
                         value={servicePrice}
                         onChange={(e) => setServicePrice(e.target.value)}
                         required
@@ -1521,7 +1521,7 @@ export default function AdminDashboard() {
                             <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--accent-color)', fontWeight: '700' }}>
                               {item.category} • {item.gender}
                             </span>
-                            <span style={{ fontWeight: '700', color: '#ffffff' }}>{item.price}</span>
+                            <span style={{ fontWeight: '700', color: '#ffffff' }}>{formatPrice(item.price)}</span>
                           </div>
                           <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem', color: '#ffffff' }}>{item.name}</h4>
                           <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: '0 0 1rem 0', flexGrow: 1, lineHighlight: '1.4' }}>

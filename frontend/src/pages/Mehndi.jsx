@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Phone, MessageSquare, Instagram, Sparkles } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { API_BASE_URL, optimizeCloudinaryUrl } from '../config';
+import { API_BASE_URL, optimizeCloudinaryUrl, formatPrice } from '../config';
 
 export default function Mehndi() {
   const [gender, setGender] = useState('both');
@@ -132,7 +132,7 @@ export default function Mehndi() {
                         e.target.src = 'https://images.unsplash.com/photo-1601625903708-3604f323a63b?q=80&w=800';
                       }}
                     />
-                    <div className="price-tag">{service.price}</div>
+                    <div className="price-tag">{formatPrice(service.price)}</div>
                   </div>
                   <div className="mehndi-card-body">
                     <h3>{service.name}</h3>

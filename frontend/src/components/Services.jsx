@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Scissors, Sparkles, ShieldCheck, HeartHandshake, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { API_BASE_URL, optimizeCloudinaryUrl } from '../config';
+import { API_BASE_URL, optimizeCloudinaryUrl, formatPrice } from '../config';
 
 export default function Services({ gender }) {
   const [activeTab, setActiveTab] = useState(gender);
@@ -288,7 +288,7 @@ export default function Services({ gender }) {
                     <div className="service-icon-box">
                       {activeTab === 'men' ? <Scissors size={18} /> : <Sparkles size={18} />}
                     </div>
-                    <span className="service-price">{service.price}</span>
+                    <span className="service-price">{formatPrice(service.price)}</span>
                   </div>
                   <h3 className="service-title">{service.name}</h3>
                   <p className="service-desc">{service.desc}</p>
