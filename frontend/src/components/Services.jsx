@@ -355,6 +355,7 @@ export default function Services({ gender }) {
       <style dangerouslySetInnerHTML={{__html: `
         .services-section {
           background-color: var(--bg-secondary);
+          padding-top: 2rem;
         }
 
         .services-tabs {

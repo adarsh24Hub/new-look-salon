@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Calendar, MapPin, Phone, MessageSquare, User } from 'lucide-react';
 import { API_BASE_URL, optimizeCloudinaryUrl } from '../config';
 
 export default function Hero({ gender }) {
+  const navigate = useNavigate();
   const [founderImage, setFounderImage] = useState(null);
   
   useEffect(() => {
@@ -29,10 +31,7 @@ export default function Hero({ gender }) {
   };
 
   const handleScrollToServices = () => {
-    const servicesSection = document.getElementById('services');
-    if (servicesSection) {
-      servicesSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    navigate('/services');
   };
 
   // Background configurations for Men vs Women

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
-import Services from '../components/Services';
+import ServicesCTA from '../components/ServicesCTA';
 import Gallery from '../components/Gallery';
 import Reels from '../components/Reels';
 import Footer from '../components/Footer';
@@ -65,8 +65,8 @@ export default function Home() {
           {/* Offers & Discounts Section */}
           <Offers gender={gender} />
           
-          {/* Services Section */}
-          <Services gender={gender} />
+          {/* Services Section CTA */}
+          <ServicesCTA gender={gender} />
           
           {/* Showcase / Photo Gallery Section */}
           <Gallery gender={gender} />

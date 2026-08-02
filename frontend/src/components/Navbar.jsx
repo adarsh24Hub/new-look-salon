@@ -47,7 +47,7 @@ export default function Navbar({ gender, onToggleGender }) {
         <div className="desktop-menu">
           <a href="#home" onClick={(e) => handleNavClick(e, 'home')}>Home</a>
           <a href="#offers" onClick={(e) => handleNavClick(e, 'offers')}>Offers</a>
-          <a href="#services" onClick={(e) => handleNavClick(e, 'services')}>Services</a>
+          <Link to="/services" className="services-nav-link" title="Premium Services">Services</Link>
           <Link to="/mehndi" className="mehndi-nav-link" title="Mehndi by Imran">Mehndi</Link>
           <a href="#gallery" onClick={(e) => handleNavClick(e, 'gallery')}>Gallery</a>
           <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')}>Contact</a>
@@ -87,7 +87,7 @@ export default function Navbar({ gender, onToggleGender }) {
         <div className="mobile-drawer glass-panel animate-fade-in">
           <a href="#home" onClick={(e) => handleNavClick(e, 'home')}>Home</a>
           <a href="#offers" onClick={(e) => handleNavClick(e, 'offers')}>Offers & Discounts</a>
-          <a href="#services" onClick={(e) => handleNavClick(e, 'services')}>Services</a>
+          <Link to="/services" className="services-nav-link" onClick={() => setIsOpen(false)} title="Premium Services">Services</Link>
           <Link to="/mehndi" className="mehndi-nav-link" onClick={() => setIsOpen(false)} title="Mehndi by Imran">Mehndi</Link>
           <a href="#gallery" onClick={(e) => handleNavClick(e, 'gallery')}>Gallery</a>
           <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')}>Contact</a>

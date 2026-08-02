@@ -253,10 +253,14 @@ export default function Mehndi() {
         .mehndi-main-container {
           max-width: 1240px;
           margin: 0 auto;
-          padding: 120px 24px 60px 24px;
+          padding: 80px 24px 60px 24px;
           display: flex;
           flex-direction: column;
           gap: 4.5rem;
+        }
+
+        .mehndi-portfolio-section {
+          padding-top: 2rem;
         }
 
         /* Hero styling */
