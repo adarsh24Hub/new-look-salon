@@ -39,7 +39,7 @@ export default function Navbar({ gender, onToggleGender }) {
           <img src="/logo.png" alt="New Look Unisex Salon Logo" className="logo-img" />
           <div className="logo-text-wrapper">
             <span className="logo-main">NEW LOOK</span>
-            <span className="logo-sub">{gender === 'men' ? 'UNISEX SALON' : 'SPA & BEAUTY'}</span>
+            <span className="logo-sub">UNISEX SALON</span>
           </div>
         </Link>
 
