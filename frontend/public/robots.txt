@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /services
+Allow: /mehndi
+Disallow: /admin
+Disallow: /admin/login
+
+Sitemap: https://new-look-unisex-salon.onrender.com/sitemap.xml
